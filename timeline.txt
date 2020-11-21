@@ -1,0 +1,2 @@
+11/21 Create main.py
+      Adding the live stock graph for support
