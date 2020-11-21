@@ -142,98 +142,54 @@ def show_menu():
 
 def stock_live():
 	'''
-	Gives 10 example of the live stock market
-	for monthley information for each stock symbol
+	This function showed the past 30 days live stock graph
 	'''
-	from yahoo_fin import stock_info as si
-	from plotly.offline import plot, init_notebook_mode
-	init_notebook_mode()
-	import cufflinks as cf
-	#!!! Dont forget to install requests_html
-
-	# %matplotlib inline
-	cf.set_config_file(offline = True)
-	# api_key = 'M4AC6SSMZQJKLEX1'
-	# ts = TimeSeries(key = api_key, output_format = 'pandas')
-	# data, meta_data = ts.get_monthly(symbol = 'MSFT')
-	info1 = si.get_live_price('msft')
-	print(info1)
-	d_df = {}
-	d_df['msft'] = si.get_data('msft', start_date='01/01/2020', end_date='03/01/2020')
-	d_df['msft'].head()
-
-	qf = cf.QuantFig(d_df['msft'])
-	qf.add_bollinger_bands()
-	qf.add_macd()
-	qf.iplot()
-	'''
-	msft = yf.Ticker('MSFT')
-	print(msft.info)
-	hist = msft.history(period = '10d')
-	hist['Close'].plot(figsize = (16,9))
-	'''
-	#Can also export the data to CSV
-	# data_df = yf.download("AAPL",start = '2020-02-01', end = '2020-11-20')
-	# data_df.to_csv('aapl.csv')
-
-def stock_test():
 	# list_stock = ["NDAQ",'DJI','INX','MSFT']
 	
-	# print("input the number you would like to check: ")
-	# print("0: NDAQ -- Nasdaq")
-	# print("1: DJI -- Dow Jones Industrial Average")
-	# print("2: INX -- S&P 500 Index")
-	# print("3: MSFT -- Microsoft")
-	# num =int(input('\ninput number here: '))
-	# if num == 3: 
-
-	# msft = yf.Ticker("MSFT")
-	# #Get your stock infomation
-	# # print(msft.info)
-	# hist = msft.history(period = '30d')
-	# hist['Close'].plot(figsize=(16,9))
-	# plt.title("Microsoft")
-	# plt.ylabel("Dollar")
-	# plt.xlabel('Days')
-	# plt.show()
-	# elif num == 0:
-		# ndaq = yf.Ticker("NDAQ")
-		# hist = ndaq.history(period = '30d')
-		# hist['Close'].plot(figsize=(16,9))
-		# plt.title("Nasdaq")
-		# plt.ylabel("Dollar")
-		# plt.xlabel('Days')
-		# plt.show()
-	# elif num == 1:
-		# dji = yf.Ticker("DJI")
-		# hist = dji.history(period = '30d')
-		# hist['Close'].plot(figsize=(16,9))
-		# plt.title("Dow Jones Industrial Average")
-		# plt.ylabel("Dollar")
-		# plt.xlabel('Days')
-		# plt.show()
-	# elif num == 2:
-	# 	'''
-	inx = yf.Ticker("INX")
-	hist = inx.history(period = '30d')
-	hist['Close'].plot(figsize=(16,9))
-	plt.title("S&P 500 Index")
-	plt.ylabel("Dollar")
-	plt.xlabel('Days')
-	plt.show()
+	print("input the number you would like to check: ")
+	print("0: NDAQ -- Nasdaq")
+	print("1: DJI -- Dow Jones Industrial Average")
+	print("2: ^GSPC -- S&P 500 Index")
+	print("3: MSFT -- Microsoft")
+	num =int(input('\ninput number here: '))
+	if num == 3: 
+		msft = yf.Ticker("MSFT")
+		#Get your stock infomation
+		# print(msft.info)
+		hist = msft.history(period = '30d')
+		hist['Close'].plot(figsize=(16,9))
+		plt.title("Microsoft")
+		plt.ylabel("Dollar")
+		plt.xlabel('Days')
+		plt.show()
+	elif num == 0:
+		ndaq = yf.Ticker("NDAQ")
+		hist = ndaq.history(period = '30d')
+		hist['Close'].plot(figsize=(16,9))
+		plt.title("Nasdaq")
+		plt.ylabel("Dollar")
+		plt.xlabel('Days')
+		plt.show()
+	elif num == 1:
+		dji = yf.Ticker("DJI")
+		hist = dji.history(period = '30d')
+		hist['Close'].plot(figsize=(16,9))
+		plt.title("Dow Jones Industrial Average")
+		plt.ylabel("Dollar")
+		plt.xlabel('Days')
+		plt.show()
+	elif num == 2:
+		inx = yf.Ticker("^GSPC")
+		hist = inx.history(period = '30d')
+		hist['Close'].plot(figsize=(16,9))
+		plt.title("S&P 500 Index")
+		plt.ylabel("Dollar")
+		plt.xlabel('Days')
+		plt.show()
 
 
 
 
 if __name__ =='__main__':
 	# show_menu()
-	# stock_live()
-	stock_test()
-
-
-
-
-
-
-
-#
+	stock_live()
