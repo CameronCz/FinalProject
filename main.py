@@ -176,9 +176,59 @@ def stock_live():
 	# data_df = yf.download("AAPL",start = '2020-02-01', end = '2020-11-20')
 	# data_df.to_csv('aapl.csv')
 
+def stock_test():
+	# list_stock = ["NDAQ",'DJI','INX','MSFT']
+	
+	# print("input the number you would like to check: ")
+	# print("0: NDAQ -- Nasdaq")
+	# print("1: DJI -- Dow Jones Industrial Average")
+	# print("2: INX -- S&P 500 Index")
+	# print("3: MSFT -- Microsoft")
+	# num =int(input('\ninput number here: '))
+	# if num == 3: 
+
+	# msft = yf.Ticker("MSFT")
+	# #Get your stock infomation
+	# # print(msft.info)
+	# hist = msft.history(period = '30d')
+	# hist['Close'].plot(figsize=(16,9))
+	# plt.title("Microsoft")
+	# plt.ylabel("Dollar")
+	# plt.xlabel('Days')
+	# plt.show()
+	# elif num == 0:
+		# ndaq = yf.Ticker("NDAQ")
+		# hist = ndaq.history(period = '30d')
+		# hist['Close'].plot(figsize=(16,9))
+		# plt.title("Nasdaq")
+		# plt.ylabel("Dollar")
+		# plt.xlabel('Days')
+		# plt.show()
+	# elif num == 1:
+		# dji = yf.Ticker("DJI")
+		# hist = dji.history(period = '30d')
+		# hist['Close'].plot(figsize=(16,9))
+		# plt.title("Dow Jones Industrial Average")
+		# plt.ylabel("Dollar")
+		# plt.xlabel('Days')
+		# plt.show()
+	# elif num == 2:
+	# 	'''
+	inx = yf.Ticker("INX")
+	hist = inx.history(period = '30d')
+	hist['Close'].plot(figsize=(16,9))
+	plt.title("S&P 500 Index")
+	plt.ylabel("Dollar")
+	plt.xlabel('Days')
+	plt.show()
+
+
+
+
 if __name__ =='__main__':
-	show_menu()
+	# show_menu()
 	# stock_live()
+	stock_test()
 
 
 
