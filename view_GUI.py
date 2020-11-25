@@ -7,7 +7,7 @@ Tianxin Zhang & Cameron Czerpak
 import sys
 
 # import main
-
+from PyQt5 import QtCore
 from PyQt5.QtWidgets import *
 from PyQt5.QtCore import *
 from PyQt5.QtChart import *
@@ -38,13 +38,11 @@ Grid Width - https://doc.qt.io/qtforpython/PySide2/QtWidgets/QGridLayout.html
 
 '''
 General notes:
-
 GUI is broken into 2 layers
 Main layer - this is the layer of the GUI that the user
 primarily uses. They can add their most recent expenses
 on this layer, and their general spending is aggregated
 here.
-
 Budget Layer - this layer is for the user to create or edit
 their budget. Here they input their income and adjust their
 categorical spending based on their own needs
@@ -107,6 +105,10 @@ class Main_Budget(QWidget):
 
         # reset inputs
         return save_button
+
+    # def exit_button(self):
+    #     exit_button = QPushButton(f'Exit')
+    #     return exit_button
 
     def monthly_spend_chart(self):
         # The QBarSet class represents a set of bars in the bar chart.
@@ -176,11 +178,15 @@ class PersonalFinance_GUI(QWidget):
     def __init__(self):
         super().__init__()
 
+        self.setWindowTitle("Budget App")
+
         mainLayout = QVBoxLayout()
 
         self.stackedWidget = QStackedWidget()
         self.stackedWidget.addWidget(Main_Budget())
         self.stackedWidget.addWidget(Budget_Maker())
+        # self.stackedWidget.addWidget(Main_Budget.exit_button(self.stackedWidget))
+        # self.stackedWidget.addWidget(())
 
         buttonMain = QPushButton('Main Budget')
         buttonMain.clicked.connect(self.mainWidget)
@@ -188,13 +194,27 @@ class PersonalFinance_GUI(QWidget):
         buttonBudget = QPushButton('Budget Maker')
         buttonBudget.clicked.connect(self.budgetWidget)
 
+        buttonExit = QPushButton('Exit')
+        buttonExit.clicked.connect(self.close)
+
+        # buttonExit
+
         buttonLayout = QHBoxLayout()
         buttonLayout.addWidget(buttonMain)
         buttonLayout.addWidget(buttonBudget)
+        # buttonLayout.addStretch(1)
+        bl2 = QVBoxLayout()
+        bl2.addStretch(2)
+        bl2.addWidget(buttonExit,alignment = QtCore.Qt.AlignRight)
 
         mainLayout.addWidget(self.stackedWidget)
         mainLayout.addLayout(buttonLayout)
+        mainLayout.addSpacing(10)
+        mainLayout.addLayout(bl2)
         self.setLayout(mainLayout)
+
+    def exitWidget(self):
+        self.stackedWidget.setCurrentIndex(2)
 
     def budgetWidget(self):
         self.stackedWidget.setCurrentIndex(1)
