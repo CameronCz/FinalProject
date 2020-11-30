@@ -156,14 +156,61 @@ class Budget_Maker(QWidget):
     def __init__(self):
         super().__init__()
 
-        layout = QVBoxLayout()
-        layout.addWidget(QPushButton(f'Button A'))
-        layout.addWidget(QPushButton(f'Button B'))
-        layout.addWidget(self.slider_percent())
-        layout.addWidget(self.slider_percent())
-        layout.addWidget(self.slider_percent())
+        # layout = QVBoxLayout()
+        # layout.addWidget(QPushButton(f'Button A'))
+        # layout.addWidget(QPushButton(f'Button B'))
+        # layout.addWidget(self.slider_percent())
+        # layout.addWidget(self.slider_percent())
+        # layout.addWidget(self.slider_percent())
 
-        self.setLayout(layout)
+        # self.setLayout(layout)
+
+        grid = QGridLayout()
+
+        grid.addWidget(self.add_text("Input Monthly Income"), 0, 0)
+        grid.addWidget(self.income_input(), 0, 1)
+
+        grid.addWidget(self.generate_budget(), 1, 0, 1, 2)
+
+        grid.addWidget(self.add_text("Housing"), 2, 0)
+        grid.addWidget(self.slider_percent(), 2, 1)
+
+        grid.addWidget(self.add_text("Food"), 3, 0)
+        grid.addWidget(self.slider_percent(), 3, 1)
+
+        grid.addWidget(self.add_text("Transportation"), 4, 0)
+        grid.addWidget(self.slider_percent(), 4, 1)
+
+        grid.addWidget(self.add_text("Savings"), 5, 0)
+        grid.addWidget(self.slider_percent(), 5, 1)
+
+        grid.addWidget(self.add_text("Necessities"), 6, 0)
+        grid.addWidget(self.slider_percent(), 6, 1)
+
+        grid.addWidget(self.add_text("Fun Money"), 7, 0)
+        grid.addWidget(self.slider_percent(), 7, 1)
+
+        grid.addWidget(self.add_text("Save Budget"), 8, 0)
+        grid.addWidget(self.save_budget(), 8, 1)
+
+        self.setLayout(grid)
+
+    def add_text(self, line_text):
+        text = QLabel()
+        text.setText(line_text)
+        return text
+
+    def income_input(self):
+        income = QLineEdit(f'Input Price in $')
+        return income
+
+    def generate_budget(self):
+        generate_budget_button = QPushButton(f'Generate Budget from Income')
+        return generate_budget_button
+
+    def save_budget(self):
+        save_b_button = QPushButton(f'Save Budget')
+        return save_b_button
 
     def slider_percent(self):
         slider_p = QSlider(Qt.Horizontal)
