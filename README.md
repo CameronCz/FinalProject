@@ -2,7 +2,9 @@
 Software Carpentry Final Project Fall 2020
 
 # Installation
-$ pip install yfinance --upgrade --no-cache-dir
+pip install yfinance
+
+pip install fpdf
 
 pip install PyQtChart
 
