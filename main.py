@@ -4,8 +4,9 @@ import pickle as p
 import time
 import pandas as pd
 import yfinance as yf
-import seaborn as sns
 import datetime
+from fpdf import FPDF
+import pandas as pd
 
 
 #Using two functions here to
@@ -13,11 +14,11 @@ import datetime
 #Another to record the usage of every payment
 
 #The date right now
-date = time.strftime('%Y%m%d')
+# date = time.strftime('%Y%m%d')
 
 
 
-def save_money():
+def save_money(date):
 	'''
 	# Let the user save the amount of money
 	# and usage to let the program know
@@ -41,13 +42,13 @@ def save_money():
 
 	content = '%-12s%-8s%-8s%-10s%-25s\n'%(date,'N/A',sav_amt,new_balance,sav_comment)
 	
-	with open('record.txt','w') as f:
+	with open('record.txt','a+') as f:
 		#a is append here to add records; can convert to pdf statement for user
 		f.write(content)
 
 	print(content)
 		
-def spend_money(balance_check):#Adding blance_cehck back
+def spend_money(balance_check,date):#Adding blance_cehck back
 	'''
 	This function tells you the money you spend
 	and the category it is used 
@@ -68,16 +69,24 @@ def spend_money(balance_check):#Adding blance_cehck back
 	f = open('wallet.data','wb')
 	p.dump(new_balance,f,0)
 
+	if new_balance <= 0:
+		print("You need to save money now!")
+
 	if new_balance <= balance_check:
 			print("Attention: You spend more than your budget!!")
 
-	with open('record.txt','w') as f:
+	with open('record.txt','a+') as f:
 		content = '%-12s%-8s%-8s%-10s%-25s\n'%(date, spend_amt,'N/A',new_balance,spend_cmt)
+		f.write(content)
 	# list.append(content)
 	print(content)
 
 def query_info():
 	# date = insert_date()
+	with open('record.txt') as f:
+		for line in f:
+			print(line)
+
 	line = '=' * 65
 	content = '%s\n%-12s%-8s%-8s%-10s%-25s'%(line,'Date','Cost','Save','Balance','Comment')
 
@@ -85,13 +94,12 @@ def query_info():
 	new_balance = p.load(f)
 	# with open('wallet.data') as f:
 	# 	new_balance = p.load(f)
-	print("The new balance is: ")
+	print("\nThe new balance is: ")
 	print(new_balance)
-	print(content)
+	# print(content)
 
-	with open('record.txt') as f:
-		for line in f:
-			print(line)
+	
+			#Connect this to summary file 
 
 # global date
 
@@ -112,7 +120,40 @@ def query_info():
 #     return date
 
 
+def init_txt():
+	balance = 0.0
+	line = '=' * 65
+	content = '%-12s%-8s%-8s%-10s%-25s\n%s\n'%('Date','Cost','Save','Balance','Category',line)
+	f = open('record.txt','w+')
+	f.write(str(content))
+	return
 
+def to_csv():
+	read_file = pd.read_csv('record.txt')
+	a = read_file.to_csv('record.csv')
+	df = pd.read_csv('record.csv',header = None)
+	# print(df.head(2))
+	# df = read_file.to_csv('record.csv',)
+	# print(type(df))
+	# df = pd.read_csv(r'record.dsv'))
+	# df.columns[]
+	# df_period = df.to_period('M')
+	# df.columns = ['Date','Cost','Save','Balance','Category']
+	# print(df.columns)
+	# print(csv_file)
+	# return csv_file
+
+
+def save_pdf():
+	pdf = FPDF()
+	pdf.add_page()
+	pdf.set_font("Arial", size = 20)
+	pdf.cell(200,10,txt = 'Summary for this month\n',ln=1,align = "C")
+	pdf.set_font("Arial", size = 14)
+	f = open("record.txt",'r')
+	for x in f:
+		pdf.cell(0,10,txt = x, ln = 1, align = True)
+	pdf.output("Summary.pdf")
 
 
 def show_menu():
@@ -122,20 +163,9 @@ def show_menu():
 	show warning message
 	'''
 	# date = insert_date()
-	balance = 0.0
-	line = '=' * 65
-	content = '%-12s%-8s%-8s%-10s%-25s\n%s'%('Date','Cost','Save','Balance','Comment',line)
-	f = open('record.txt','w')
-	f.write(str(content))
+	
 
-	budget = float(input("Input the number of maximum spending this month: "))
-	total_income = float(input('Input total income this month: '))
-	balance_check = total_income - budget
-
-	f = open('wallet.data','wb')
-	p.dump(total_income,f,0)
-	with open('record.txt','wb')as f:
-		pass
+	
 	
 	prompt = '''
 	'0':'spend_money'
@@ -144,14 +174,32 @@ def show_menu():
 	'3':'quit'
 	'''
 	while True:
-		test = {'0':spend_money,'1':save_money,'2':query_info}
-		choice = input("Please input the option: %s"%prompt)
+		date_entry = input("Enter a date in yyyy-mm-dd format: ")
+		year, month, day = map(int,date_entry.split('-'))
+		date = datetime.date(year,month,day)
 
-		if choice == '3':
+		budget = float(input("Input the number of maximum spending this month: "))
+		total_income = float(input('Input total income this month: '))
+		balance_check = total_income - budget
+
+		f = open('wallet.data','wb')
+		p.dump(total_income,f,0)
+		with open('record.txt','a+')as f:
+			pass
+
+		test = {'0':spend_money,'1':save_money,'2':query_info}
+		choice = input("Please input the option: (0/1/2/3) %s"%prompt)
+
+		if choice not in '0''1''2''3':
+			print("Invalid Input, try again")
+			continue
+		elif choice == '3':
 			break
 		elif choice == '0':
 			balance_check = balance_check
-			test[choice](balance_check)
+			test[choice](balance_check,date)
+		elif choice == '1':
+			test[choice](date)
 		else:
 			test[choice]()
 
@@ -212,16 +260,11 @@ def init_view():
 # 	view_application = ""
 
 if __name__ =='__main__':
-	show_menu()
+	to_csv()
+	# init_txt()
+	# show_menu()
+	# save_pdf()
 	# spend_money()
 	# insert_date()
 	# init_view()# This is help with the 
 	# stock_live()
-
-
-
-
-
-
-
-#
