@@ -13,6 +13,11 @@ from PyQt5.QtCore import *
 from PyQt5.QtChart import *
 from PyQt5.QtGui import *
 
+import pickle
+import os.path
+from os import path
+
+
 '''
 Instalations
 pip install PyQtChart
@@ -29,6 +34,7 @@ Sliders - https://pythonprogramminglanguage.com/pyqt5-sliders/
 Multiple Pages - https://stackoverflow.com/questions/56867107/how-to-make-a-multi-page-application-in-pyqt5
 QStackedWidget - https://learndataanalysis.org/rotate-widgets-with-qstackedwidget-class/
 BarGraph - https://codeloop.org/pyqtchart-how-to-create-barchart-in-pyqt5/
+StackedBarGraph - https://doc.qt.io/qt-5/qtcharts-stackedbarchart-example.html
 Layouts - https://www.learnpyqt.com/tutorials/layouts/
 Layouts - http://zetcode.com/gui/pyqt5/layout/
 Date - https://stackoverflow.com/questions/61449954/pyqt5-datepicker-popup
@@ -37,6 +43,9 @@ Grid Width - https://doc.qt.io/qtforpython/PySide2/QtWidgets/QGridLayout.html
 Make LCD - https://learndataanalysis.org/control-lcd-number-widget-with-a-slider-pyqt5-tutorial/
 Refresh LCD - https://stackoverflow.com/questions/52015269/displaying-numbers-with-qlcdnumber-display-with-pyqt
 Saving - https://www.jessicayung.com/how-to-use-pickle-to-save-and-load-variables-in-python/
+Popups - https://www.techwithtim.net/tutorials/pyqt5-tutorial/messageboxes/
+LCD Color - https://stackoverflow.com/questions/52312768/change-qlcdnumber-colour-when-a-specific-value-is-read-using-pyqt5
+Get combo box text - https://www.geeksforgeeks.org/pyqt5-getting-the-text-of-selected-item-in-combobox/
 '''
 
 '''
@@ -56,24 +65,38 @@ class Main_Budget(QWidget):
     def __init__(self):
         super().__init__()
 
+        self.lcdprice = QLCDNumber()
+        self.lcdprice.display(0)
+
+        self.date_edit = QDateEdit(calendarPopup=True)
+        self.date_edit.setDateTime(QDateTime.currentDateTime())
+
+        self.spend_cb = QComboBox()
+        self.spend_cb.addItems(["housing", "food", "transportation",
+                                "savings", "necessities", "fun_money"])
+
         grid = QGridLayout()
         grid.addWidget(self.add_text("Information"), 0, 0)
         grid.addWidget(self.add_text("Input Expense"), 0, 1)
 
         grid.addWidget(self.add_text("Date"), 1, 0)
-        grid.addWidget(self.date_input(), 1, 1)
+        # grid.addWidget(self.date_input(), 1, 1)
+        grid.addWidget(self.date_edit, 1, 1)
 
         grid.addWidget(self.add_text("Price"), 2, 0)
-        grid.addWidget(self.price_input(), 2, 1)
+        grid.addWidget(self.lcdprice, 2, 1)
 
-        grid.addWidget(self.add_text("Category"), 3, 0)
-        grid.addWidget(self.spend_category(), 3, 1)
+        grid.addWidget(self.price_input(), 3, 0, 1, 2)
 
-        grid.addWidget(self.add_text("Confirm"), 4, 0)
-        grid.addWidget(self.save_expense(), 4, 1)
+        grid.addWidget(self.add_text("Category"), 4, 0)
+        # grid.addWidget(self.spend_category(), 4, 1)
+        grid.addWidget(self.spend_cb, 4, 1)
 
-        grid.addWidget(self.monthly_spend_chart(), 5, 0, 1, 2)
+        grid.addWidget(self.add_text("Confirm"), 5, 0)
+        grid.addWidget(self.save_expense(), 5, 1)
+
         grid.addWidget(self.monthly_spend_chart(), 6, 0, 1, 2)
+        # grid.addWidget(self.monthly_spend_chart(), 7, 0, 1, 2)
 
         self.setLayout(grid)
 
@@ -82,36 +105,90 @@ class Main_Budget(QWidget):
         text.setText(line_text)
         return text
 
-    def date_input(self):
-        date_edit = QDateEdit(calendarPopup=True)
-        date_edit.setDateTime(QDateTime.currentDateTime())
-        return date_edit
+    # def date_input(self):
+    #     date_edit = QDateEdit(calendarPopup=True)
+    #     date_edit.setDateTime(QDateTime.currentDateTime())
+    #     return date_edit
 
     def price_input(self):
-        price = QLineEdit(f'Input Price in $')
-        return price
+        # price = QLineEdit(f'Input Price in $')
+        slider_price = QSlider(Qt.Horizontal)
+        slider_price.setFocusPolicy(Qt.StrongFocus)
+        slider_price.setTickPosition(QSlider.TicksBothSides)
+        slider_price.setMaximum(2000)
+        slider_price.setMinimum(0)
+        slider_price.setTickInterval(100)
+        slider_price.setSingleStep(1)
+        slider_price.setSliderPosition(0)
+        slider_price.valueChanged.connect(self.updateLCDprice)
+        # slider_price.valueChanged.connect(self.updateLCDh_d)
+        return slider_price
+        # return price
 
-    def spend_category(self):
-        spend_cb = QComboBox()
-        spend_cb.addItems(["Category", "Housing", "Food", "Transportation",
-                           "Savings", "Necessities", "Fun Money"])
-        return spend_cb
+    def updateLCDprice(self, event):
+        # print(event)
+        self.lcdprice.setStyleSheet("""QLCDNumber { 
+                                                    background-color: black; 
+                                                    color:  white; }""")
+        self.lcdprice.display(event)
+
+    # def spend_category(self):
+    #     spend_cb = QComboBox()
+    #     # spend_cb.addItems(["Category", "Housing", "Food", "Transportation",
+    #     #                    "Savings", "Necessities", "Fun Money"])
+    #     spend_cb.addItems(["housing", "food", "transportation",
+    #                        "savings", "necessities", "fun_money"])
+    #     return spend_cb
 
     def save_expense(self):
-        save_button = QPushButton(f'Save Expnse')
+        save_e_button = QPushButton(f'Save Expense')
 
-        # Write date, price, and category to text file
+        # print(self.date_edit.date().toString("dd/MM/yyyy"))
 
-        # Do not save if price isn't inputted correctly
+        # Write date, price, and category pickle file
 
-        # Do not save if no category is selected
+        # Update graph
+        save_e_button.clicked.connect(self.save_expense_click)
+        return save_e_button
 
-        # reset inputs
-        return save_button
+    def save_expense_click(self):
+        expense_save = {'income': 0,
+                        'housing': 0,
+                        'food': 0,
+                        'transportation': 0,
+                        'savings': 0,
+                        'necessities': 0,
+                        'fun_money': 0}
 
-    # def exit_button(self):
-    #     exit_button = QPushButton(f'Exit')
-    #     return exit_button
+        monthyear = self.date_edit.date().toString("MMMMyy")
+        combo_box_text = self.spend_cb.currentText()
+        if monthyear == "December20":
+            if path.exists("December20.pickle"):
+                with open('December20.pickle', 'rb') as handle:
+                    December20 = pickle.load(handle)
+                    December20[combo_box_text] += int(self.lcdprice.value())
+                with open('December20.pickle', 'wb') as handle:
+                    pickle.dump(December20, handle,
+                                protocol=pickle.HIGHEST_PROTOCOL)
+            else:
+                December20 = expense_save
+                December20[combo_box_text] += int(self.lcdprice.value())
+                with open('December20.pickle', 'wb') as handle:
+                    pickle.dump(December20, handle,
+                                protocol=pickle.HIGHEST_PROTOCOL)
+        return
+
+    # def save_expense_click(self):
+    #     budget = {'income': self.lcdi.value(),
+    #               'housing': self.lcdh_d.value(),
+    #               'food': self.lcdf_d.value(),
+    #               'transportation': self.lcdt_d.value(),
+    #               'savings': self.lcds_d.value(),
+    #               'necessities': self.lcdn.value(),
+    #               'fun_money': self.lcdfm.value()}
+    #     with open('budget.pickle', 'wb') as handle:
+    #         pickle.dump(budget, handle, protocol=pickle.HIGHEST_PROTOCOL)
+    #     return  # budget
 
     def monthly_spend_chart(self):
         # The QBarSet class represents a set of bars in the bar chart.
@@ -292,7 +369,36 @@ class Budget_Maker(QWidget):
 
     def save_budget(self):
         save_b_button = QPushButton(f'Save Budget')
+        # save_b_button.clicked.connect(save_budget_fun(self.lcdi.value(), self.lcdh_d.value(), self.lcdf_d.value(),
+        #                                               self.lcdt_d.value(), self.lcds_d.value(), self.lcdn.value(), self.lcdfm.value()))
+
+        # def save_budget_click(self):
+        # budget = {'income': self.lcdi.value(),
+        #           'housing': self.lcdh_d.value(),
+        #           'food': self.lcdf_d.value(),
+        #           'transportation': self.lcdt_d.value(),
+        #           'savings': self.lcds_d.value(),
+        #           'necessities': self.lcdn.value(),
+        #           'fun_money': self.lcdfm.value()}
+        # return budget
+        # save_b_button.clicked.connect(self.save_budget_click)
+
+        # with open('budget.pickle', 'wb') as handle:
+        #     pickle.dump(budget, handle, protocol=pickle.HIGHEST_PROTOCOL)
+        save_b_button.clicked.connect(self.save_budget_click)
         return save_b_button
+
+    def save_budget_click(self):
+        budget = {'income': self.lcdi.value(),
+                  'housing': self.lcdh_d.value(),
+                  'food': self.lcdf_d.value(),
+                  'transportation': self.lcdt_d.value(),
+                  'savings': self.lcds_d.value(),
+                  'necessities': self.lcdn.value(),
+                  'fun_money': self.lcdfm.value()}
+        with open('budget.pickle', 'wb') as handle:
+            pickle.dump(budget, handle, protocol=pickle.HIGHEST_PROTOCOL)
+        return  # budget
 
     def check_budget(self):
         check_b_button = QPushButton(f'Check Budget')
