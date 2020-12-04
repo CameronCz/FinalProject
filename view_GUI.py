@@ -546,11 +546,12 @@ class Main_Budget(QWidget):
                 with open('January.pickle', 'wb') as handle:
                     pickle.dump(January, handle,
                                 protocol=pickle.HIGHEST_PROTOCOL)
-        filename = month_name            
+        filename = month_name
+        instance = Budget_Maker()            
         with open(filename + '.pickle', 'rb') as handle:
             b = pickle.load(handle)
         # print(b.values())
-        if sum(b.values()) >= 5000:
+        if sum(b.values()) >= instance.lcdi.value():
             #it will still save the money
             error_gui("You spend more than your income this month!")
 
@@ -832,6 +833,7 @@ class Budget_Maker(QWidget):
         slider_i.valueChanged.connect(self.updateLCDs_d)
         slider_i.valueChanged.connect(self.updateLCDn_d)
         slider_i.valueChanged.connect(self.updateLCDfm_d)
+        # print(slider_value)
         return slider_i
 
     def updateLCDi(self, event):
@@ -851,6 +853,8 @@ class Budget_Maker(QWidget):
                   'savings': self.lcds_d.value(),
                   'necessities': self.lcdn_d.value(),
                   'fun_money': self.lcdfm_d.value()}
+
+        # print(self.lcdi.value())
         with open('budget.pickle', 'wb') as handle:
             pickle.dump(budget, handle, protocol=pickle.HIGHEST_PROTOCOL)
         return
@@ -1039,6 +1043,7 @@ class PersonalFinance_GUI(QWidget):
         buttonRefresh = QPushButton('Refresh')
         buttonExit.clicked.connect(self.refreshWidget)
 
+
         # buttonExit
 
         buttonLayout = QHBoxLayout()
@@ -1061,7 +1066,8 @@ class PersonalFinance_GUI(QWidget):
         self.mainLayout.addLayout(bl3)
         self.mainLayout.addLayout(bl2)
         self.setLayout(self.mainLayout)
-        # PyQt5.QtWidgets.QApplication.processEvents()
+        
+        QtWidgets.QApplication.processEvents()
 
     # def exitWidget(self):
     #     self.stackedWidget.setCurrentIndex(2)
@@ -1077,15 +1083,17 @@ class PersonalFinance_GUI(QWidget):
 
     def budgetWidget(self):
         self.stackedWidget.setCurrentIndex(1)
+        QtWidgets.QApplication.processEvents()
 
     def mainWidget(self):
         self.stackedWidget.setCurrentIndex(0)
+        QtWidgets.QApplication.processEvents()
 
 
 if __name__ == '__main__':
     # upon start up read previous expenses text file
     app = QApplication(sys.argv)
-    # QtWidgets.QApplication.processEvents()
+    QtWidgets.QApplication.processEvents()
     pf_gui = PersonalFinance_GUI()
     pf_gui.show()
     sys.exit(app.exec_())
