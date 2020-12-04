@@ -51,7 +51,6 @@ LCD Color - https://stackoverflow.com/questions/52312768/change-qlcdnumber-colou
 Get combo box text - https://www.geeksforgeeks.org/pyqt5-getting-the-text-of-selected-item-in-combobox/
 Update Dictionary - https://stackoverflow.com/questions/41063744/how-to-update-the-value-of-a-key-in-a-dictionary-in-python
 Check if path exists - https://www.guru99.com/python-check-if-file-exists.html
-
 '''
 
 '''
@@ -157,7 +156,8 @@ class Main_Budget(QWidget):
         save_e_button.clicked.connect(self.save_expense_click)
         return save_e_button
 
-    def save_expense_click(self):
+    def save_expense_click(self,filename):
+        self.filename = filename
         # expense_save = {'income': 0,
         #                 'housing': 0,
         #                 'food': 0,
@@ -174,21 +174,46 @@ class Main_Budget(QWidget):
 
         monthyear = self.date_edit.date().toString("MMMMyy")
         combo_box_text = self.spend_cb.currentText()
-        if monthyear == "December20":
-            if path.exists("December20.pickle"):
-                with open('December20.pickle', 'rb') as handle:
+        filename = str(monthyear)+'.pickle'
+        # if monthyear == filename:
+        if ".pickle" in filename:
+            filename = filename.split('.pickle')[0]
+            if path.exists(filename + '.pickle'):
+                with open(filename + '.pickle', 'rb') as handle:
                     December20 = pickle.load(handle)
                     December20[combo_box_text] += int(self.lcdprice.value())
-                with open('December20.pickle', 'wb') as handle:
+                with open(filename + '.pickle', 'wb') as handle:
                     pickle.dump(December20, handle,
                                 protocol=pickle.HIGHEST_PROTOCOL)
             else:
                 December20 = expense_save
                 December20[combo_box_text] += int(self.lcdprice.value())
-                with open('December20.pickle', 'wb') as handle:
+                with open(filename + '.pickle', 'wb') as handle:
                     pickle.dump(December20, handle,
                                 protocol=pickle.HIGHEST_PROTOCOL)
-        return
+
+        # make sure not over your total budget 5000
+            with open(filename + '.pickle', 'rb') as handle:
+                b = pickle.load(handle)
+                # print(b.values())
+                if sum(b.values()) >= 5000:
+                    #it will still save the money
+                    error_gui("You spend more than your budget this month!")
+                # return
+            # button = QmessageBox.warning(self, 'Warning'.self.tr("Do you want to save the change?"),
+            #                              QmessageBox.Save | QmessageBox.Discard | QmessageBox.Cancel, QmessageBox.Save)
+            # if button == QmessageBox.Save:
+            #     self.label.setText("Warning Button/Save")
+            # elif button == QmessageBox.Discard:
+            #     self.label.setText('Warning Button/Discard')
+            # elif button == QmessageBox.Cancel:
+            #     self.label.setText("Warning button/Cancel")
+            # else:
+            #     return
+
+        # print("You spend more than your budget this month!")
+    
+
 
     # def save_expense_click(self):
     #     budget = {'income': self.lcdi.value(),
@@ -243,6 +268,39 @@ class Main_Budget(QWidget):
 
         return monthly_spend_c_View
 
+def error_gui(error_msg):
+    MessageScreen(QMessageBox.Critical,"An Error Occured!",error_msg)
+
+class MessageScreen(QWidget):
+
+    def __init__(self, message_type, title, message):
+        super().__init__()
+
+        self.move_to_centre()
+
+        error_box = QMessageBox(self)
+        error_box.setIcon(message_type)
+        error_box.setText(title)
+
+        error_box.setInformativeText(str(message))
+        error_box.addButton(QMessageBox.Ok)
+
+        error_box.setDefaultButton(QMessageBox.Ok)
+        ret = error_box.exec_()
+
+        if ret == QMessageBox.Ok:
+            return
+ 
+    def move_to_centre(self):
+        resolution = QDesktopWidget().screenGeometry()
+
+        width = resolution.width() / 2
+        height = resolution.height() / 2
+
+        frame_width = self.frameSize().width() / 2
+        frame_height = self.frameSize().height() / 2
+
+        self.move(width - frame_width, height - frame_height)
 
 class Budget_Maker(QWidget):
     def __init__(self):
