@@ -15,3 +15,7 @@ widgets
 core
 
 gui
+
+matplotlib
+
+yfinance
