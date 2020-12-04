@@ -5,6 +5,7 @@ EN.540.635
 Tianxin Zhang & Cameron Czerpak
 '''
 import sys
+#We need sys so that we can pass argv to Qapplication
 # from guicalc import *
 
 # import main
@@ -13,6 +14,8 @@ from PyQt5.QtWidgets import *
 from PyQt5.QtCore import *
 from PyQt5.QtChart import *
 from PyQt5.QtGui import *
+import matplotlib.pyplot as plt
+import yfinance as yf
 
 import pickle
 import os.path
@@ -66,6 +69,7 @@ Budget Layer - this layer is for the user to create or edit
 their budget. Here they input their income and adjust their
 categorical spending based on their own needs
 '''
+
 
 
 class Main_Budget(QWidget):
@@ -338,6 +342,15 @@ class Main_Budget(QWidget):
 
         return save_e_button
 
+    # def stock_live(self):
+    #     stock_button = QPushButton('Check Current Stock')
+    #     stock_button.clicked.connect(self.stock_click)
+    #     return stock_button
+
+    # def stock_click(self):
+    #     #Transferring from main.py we wrote previously
+
+
     def save_expense_click(self):
         expense_save = {'housing': 0,
                         'food': 0,
@@ -539,6 +552,118 @@ class Main_Budget(QWidget):
                                 protocol=pickle.HIGHEST_PROTOCOL)
 
         return
+
+class Stock_Maker(QWidget):
+    def __init__(self):
+        super().__init__()
+        self.sc_im_label = QLabel()
+        self.main_layout = QVBoxLayout()
+        self.init_page()
+
+
+    def init_page(self):
+        #Start here putting 4 stocks live to the current GUI page
+        sc_im_map = QPixmap("sc.png")
+        self.sc_im_label.setPixmap(sc_im_map)
+        self.sc_im_label.show()
+
+        id_label = QLabel("Please select an option:")
+
+        nasdaq_button = QPushButton('Nasdaq Live Stock Info', self)
+        nasdaq_button.clicked.connect(self.nasdaq_button_is_pressed)
+
+        dji_button = QPushButton('Dow Johns Industrial Average Live Stock Info', self)
+        dji_button.clicked.connect(self.dji_button_is_pressed)
+
+        sp500_button = QPushButton('S&P 500 Index Live Stock Info', self)
+        sp500_button.clicked.connect(self.sp500_button_is_pressed)
+        
+        msft_button = QPushButton('Microsoft Live Stock Info',self)
+        msft_button.clicked.connect(self.msft_button_is_pressed)
+
+        im_layout = QGridLayout()
+        im_layout.addWidget(self.sc_im_label,0,0)
+
+        nasdaq_layout = QGridLayout()
+        nasdaq_layout.addWidget(nasdaq_button, 0, 0)
+
+        dji_layout = QGridLayout()
+        dji_layout.addWidget(dji_button, 0, 0)
+
+        sp500_layout = QGridLayout()
+        sp500_layout.addWidget(sp500_button, 0, 0)
+        
+        msft_layout = QGridLayout()
+        msft_layout.addWidget(msft_button, 0, 0)
+
+        id_layout = QGridLayout()
+        id_layout.addWidget(id_label, 0, 0)
+
+        buttons_layout = QHBoxLayout()
+        buttons_layout.addStretch(1)
+        # buttons_layout.addWidget(exit_button)
+
+        self.main_layout.addSpacing(5)
+        self.main_layout.addLayout(im_layout)
+        self.main_layout.addSpacing(5)
+        self.main_layout.addLayout(nasdaq_layout)
+        self.main_layout.addSpacing(5)
+        self.main_layout.addLayout(dji_layout)
+        self.main_layout.addSpacing(5)
+        self.main_layout.addLayout(sp500_layout)
+        self.main_layout.addSpacing(5)
+        self.main_layout.addLayout(msft_layout)
+        self.main_layout.addSpacing(10)
+        self.main_layout.addLayout(buttons_layout)
+        self.setLayout(self.main_layout)
+    
+    def nasdaq_button_is_pressed():
+        ndaq = yf.Ticker("NDAQ")
+        hist = ndaq.history(period = '30d')
+        hist['Close'].plot(figsize=(16,9))
+        plt.title("Nasdaq")
+        plt.ylabel("Dollar")
+        plt.xlabel('Days')
+        plt.show()
+
+    def dji_button_is_pressed():
+        dji = yf.Ticker("DJI")
+        hist = dji.history(period = '30d')
+        hist['Close'].plot(figsize=(16,9))
+        plt.title("Dow Jones Industrial Average")
+        plt.ylabel("Dollar")
+        plt.xlabel('Days')
+        plt.show()
+
+    def sp500_button_is_pressed():
+        inx = yf.Ticker("^GSPC")
+        hist = inx.history(period = '30d')
+        hist['Close'].plot(figsize=(16,9))
+        plt.title("S&P 500 Index")
+        plt.ylabel("Dollar")
+        plt.xlabel('Days')
+        plt.show()
+
+    def msft_button_is_pressed():
+        msft = yf.Ticker("MSFT")
+        #Get your stock infomation
+        # print(msft.info)
+        hist = msft.history(period = '30d')
+        hist['Close'].plot(figsize=(16,9))
+        plt.title("Microsoft")
+        plt.ylabel("Dollar")
+        plt.xlabel('Days')
+        plt.show()
+
+    def clear_layout(self, layout):
+        if layout is not None:
+            while layout.count():
+                item = layout.takeAt(0)
+                widget = item.widget()
+                if widget is not None:
+                    widget.setParent(None)
+                else:
+                    self.clear_layout(item.layout())
 
 
 class Budget_Maker(QWidget):
@@ -843,7 +968,7 @@ class PersonalFinance_GUI(QWidget):
     def __init__(self):
         super().__init__()
 
-        self.setWindowTitle("Budget App")
+        self.setWindowTitle("Budget App Cameron & Tianxin")
 
         # mainLayout = QVBoxLayout()
         self.mainLayout = QVBoxLayout()
@@ -852,13 +977,16 @@ class PersonalFinance_GUI(QWidget):
         self.stackedWidget.addWidget(Main_Budget())
         self.stackedWidget.addWidget(Budget_Maker())
         # self.stackedWidget.addWidget(Main_Budget.exit_button(self.stackedWidget))
-        # self.stackedWidget.addWidget(())
+        self.stackedWidget.addWidget((Stock_Maker()))
 
         buttonMain = QPushButton('Main Budget')
         buttonMain.clicked.connect(self.mainWidget)
 
         buttonBudget = QPushButton('Budget Maker')
         buttonBudget.clicked.connect(self.budgetWidget)
+
+        buttonStock = QPushButton('Check Live Stocks')
+        buttonStock.clicked.connect(self.stockWidget)
 
         buttonExit = QPushButton('Exit')
         buttonExit.clicked.connect(self.close)
@@ -871,6 +999,7 @@ class PersonalFinance_GUI(QWidget):
         buttonLayout = QHBoxLayout()
         buttonLayout.addWidget(buttonMain)
         buttonLayout.addWidget(buttonBudget)
+        buttonLayout.addWidget(buttonStock)
         # buttonLayout.addStretch(1)
 
         bl3 = QVBoxLayout()
@@ -890,6 +1019,8 @@ class PersonalFinance_GUI(QWidget):
 
     # def exitWidget(self):
     #     self.stackedWidget.setCurrentIndex(2)
+    def stockWidget(self):
+        self.stackedWidget.setCurrentIndex(2)
 
     def refreshWidget(self):
         self.stackedWidget.removeWidget(Main_Budget())
