@@ -5,6 +5,7 @@ EN.540.635
 Tianxin Zhang & Cameron Czerpak
 '''
 import sys
+# from guicalc import *
 
 # import main
 from PyQt5 import QtCore
@@ -38,14 +39,19 @@ StackedBarGraph - https://doc.qt.io/qt-5/qtcharts-stackedbarchart-example.html
 Layouts - https://www.learnpyqt.com/tutorials/layouts/
 Layouts - http://zetcode.com/gui/pyqt5/layout/
 Date - https://stackoverflow.com/questions/61449954/pyqt5-datepicker-popup
+Date to text - https://doc.qt.io/qt-5/qdate.html
 Drop Down Box - https://www.tutorialspoint.com/pyqt/pyqt_qcombobox_widget.htm
 Grid Width - https://doc.qt.io/qtforpython/PySide2/QtWidgets/QGridLayout.html
 Make LCD - https://learndataanalysis.org/control-lcd-number-widget-with-a-slider-pyqt5-tutorial/
 Refresh LCD - https://stackoverflow.com/questions/52015269/displaying-numbers-with-qlcdnumber-display-with-pyqt
 Saving - https://www.jessicayung.com/how-to-use-pickle-to-save-and-load-variables-in-python/
+Pickle dictionary - https://stackoverflow.com/questions/11218477/how-can-i-use-pickle-to-save-a-dict
 Popups - https://www.techwithtim.net/tutorials/pyqt5-tutorial/messageboxes/
 LCD Color - https://stackoverflow.com/questions/52312768/change-qlcdnumber-colour-when-a-specific-value-is-read-using-pyqt5
 Get combo box text - https://www.geeksforgeeks.org/pyqt5-getting-the-text-of-selected-item-in-combobox/
+Update Dictionary - https://stackoverflow.com/questions/41063744/how-to-update-the-value-of-a-key-in-a-dictionary-in-python
+Check if path exists - https://www.guru99.com/python-check-if-file-exists.html
+
 '''
 
 '''
@@ -152,8 +158,14 @@ class Main_Budget(QWidget):
         return save_e_button
 
     def save_expense_click(self):
-        expense_save = {'income': 0,
-                        'housing': 0,
+        # expense_save = {'income': 0,
+        #                 'housing': 0,
+        #                 'food': 0,
+        #                 'transportation': 0,
+        #                 'savings': 0,
+        #                 'necessities': 0,
+        #                 'fun_money': 0}
+        expense_save = {'housing': 0,
                         'food': 0,
                         'transportation': 0,
                         'savings': 0,
@@ -394,8 +406,8 @@ class Budget_Maker(QWidget):
                   'food': self.lcdf_d.value(),
                   'transportation': self.lcdt_d.value(),
                   'savings': self.lcds_d.value(),
-                  'necessities': self.lcdn.value(),
-                  'fun_money': self.lcdfm.value()}
+                  'necessities': self.lcdn_d.value(),
+                  'fun_money': self.lcdfm_d.value()}
         with open('budget.pickle', 'wb') as handle:
             pickle.dump(budget, handle, protocol=pickle.HIGHEST_PROTOCOL)
         return  # budget
