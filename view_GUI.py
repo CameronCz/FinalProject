@@ -830,7 +830,7 @@ class Stock_Maker(QWidget):
         nasdaq_button.clicked.connect(self.nasdaq_button_is_pressed)
 
         dji_button = QPushButton(
-            'Dow Johns Industrial Average Stock Daily Info', self)
+            'Dow Jones Industrial Average Stock Daily Info', self)
         dji_button.clicked.connect(self.dji_button_is_pressed)
 
         sp500_button = QPushButton('S&P 500 Index Stock Daily Info', self)
