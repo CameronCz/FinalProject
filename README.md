@@ -12,12 +12,12 @@ Team member: Cameron Czerpek & Tianxin Zhang
 
 ## Table of Coontents
 
--[Background](#background)
--[Specification](#specification)
--[Installation](#installation)
--[Usage](#usage)
--[Contributing](#contributing)
--[License](#license)
+- [Background](#background)
+- [Specification](#specification)
+- [Installation](#installation)
+- [Usage](#usage)
+- [Contributing](#contributing)
+- [License](#license)
 
 
 
