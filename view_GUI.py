@@ -192,7 +192,7 @@ class Main_Budget(QWidget):
         self.monthly_spend_c = QChart()
         self.monthly_spend_c.createDefaultAxes()
         self.monthly_spend_c.addSeries(self.spend_data)
-        self.monthly_spend_c.setTitle("Monthly Spending Percentages Over the Last 3 Months")
+        self.monthly_spend_c.setTitle("Monthly Spending Percentages")
         self.monthly_spend_c.setAnimationOptions(QChart.SeriesAnimations)
 
         self.axis = QBarCategoryAxis()
@@ -563,16 +563,16 @@ class Stock_Maker(QWidget):
 
         id_label = QLabel("Please select an option:")
 
-        nasdaq_button = QPushButton('Nasdaq Live Stock Info', self)
+        nasdaq_button = QPushButton('Nasdaq Stock Daily Info', self)
         nasdaq_button.clicked.connect(self.nasdaq_button_is_pressed)
 
-        dji_button = QPushButton('Dow Johns Industrial Average Live Stock Info', self)
+        dji_button = QPushButton('Dow Johns Industrial Average Stock Daily Info', self)
         dji_button.clicked.connect(self.dji_button_is_pressed)
 
-        sp500_button = QPushButton('S&P 500 Index Live Stock Info', self)
+        sp500_button = QPushButton('S&P 500 Index Stock Daily Info', self)
         sp500_button.clicked.connect(self.sp500_button_is_pressed)
         
-        msft_button = QPushButton('Microsoft Live Stock Info',self)
+        msft_button = QPushButton('Microsoft Stock Daily Info',self)
         msft_button.clicked.connect(self.msft_button_is_pressed)
 
         sc_im_map = QPixmap("sc.png")
@@ -986,7 +986,7 @@ class PersonalFinance_GUI(QWidget):
         buttonBudget = QPushButton('Budget Maker')
         buttonBudget.clicked.connect(self.budgetWidget)
 
-        buttonStock = QPushButton('Check Live Stocks')
+        buttonStock = QPushButton('Daily Stock Information')
         buttonStock.clicked.connect(self.stockWidget)
 
         buttonExit = QPushButton('Exit')
