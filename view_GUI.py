@@ -10,6 +10,7 @@ import sys
 
 # import main
 from PyQt5 import QtCore
+from PyQt5 import QtWidgets
 from PyQt5.QtWidgets import *
 from PyQt5.QtCore import *
 from PyQt5.QtChart import *
@@ -545,8 +546,49 @@ class Main_Budget(QWidget):
                 with open('January.pickle', 'wb') as handle:
                     pickle.dump(January, handle,
                                 protocol=pickle.HIGHEST_PROTOCOL)
+        filename = month_name            
+        with open(filename + '.pickle', 'rb') as handle:
+            b = pickle.load(handle)
+        # print(b.values())
+        if sum(b.values()) >= 5000:
+            #it will still save the money
+            error_gui("You spend more than your income this month!")
 
         return
+
+def error_gui(error_msg):
+    MessageScreen(QMessageBox.Critical,"An Error Occured!",error_msg)
+
+class MessageScreen(QWidget):
+
+    def __init__(self, message_type, title, message):
+        super().__init__()
+
+        self.move_to_centre()
+
+        error_box = QMessageBox(self)
+        error_box.setIcon(message_type)
+        error_box.setText(title)
+
+        error_box.setInformativeText(str(message))
+        error_box.addButton(QMessageBox.Ok)
+
+        error_box.setDefaultButton(QMessageBox.Ok)
+        ret = error_box.exec_()
+
+        if ret == QMessageBox.Ok:
+            return
+
+    def move_to_centre(self):
+        resolution = QDesktopWidget().screenGeometry()
+
+        width = resolution.width() / 2
+        height = resolution.height() / 2
+
+        frame_width = self.frameSize().width() / 2
+        frame_height = self.frameSize().height() / 2
+
+        self.move(width - frame_width, height - frame_height)
 
 class Stock_Maker(QWidget):
     #Put everything we wrote in main.py about live stock info to here 
@@ -581,6 +623,7 @@ class Stock_Maker(QWidget):
 
         im_layout = QGridLayout()
         im_layout.addWidget(self.sc_im_label,0,0)
+        # im_layout.addStretch(1)
 
         nasdaq_layout = QGridLayout()
         nasdaq_layout.addWidget(nasdaq_button, 0, 0)
@@ -596,6 +639,7 @@ class Stock_Maker(QWidget):
 
         id_layout = QGridLayout()
         id_layout.addWidget(id_label, 0, 0)
+
 
         buttons_layout = QHBoxLayout()
         buttons_layout.addStretch(1)
@@ -1017,6 +1061,7 @@ class PersonalFinance_GUI(QWidget):
         self.mainLayout.addLayout(bl3)
         self.mainLayout.addLayout(bl2)
         self.setLayout(self.mainLayout)
+        # PyQt5.QtWidgets.QApplication.processEvents()
 
     # def exitWidget(self):
     #     self.stackedWidget.setCurrentIndex(2)
@@ -1026,6 +1071,7 @@ class PersonalFinance_GUI(QWidget):
     def refreshWidget(self):
         self.stackedWidget.removeWidget(Main_Budget())
         self.stackedWidget.addWidget(Main_Budget())
+        QtWidgets.QApplication.processEvents()
         # self.mainLayout.hide()
         # self.mainLayout.show()
 
@@ -1039,6 +1085,7 @@ class PersonalFinance_GUI(QWidget):
 if __name__ == '__main__':
     # upon start up read previous expenses text file
     app = QApplication(sys.argv)
+    # QtWidgets.QApplication.processEvents()
     pf_gui = PersonalFinance_GUI()
     pf_gui.show()
     sys.exit(app.exec_())
