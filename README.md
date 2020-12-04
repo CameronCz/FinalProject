@@ -18,8 +18,11 @@ Team member: Cameron Czerpek & Tianxin Zhang
 - [Usage](#usage)
 - [Contributing](#contributing)
 - [License](#license)
+- [Unit Test](#unittest)
 
+## Background
 
+## Specifications
 
 ## Installation
 pip install yfinance
@@ -40,9 +43,14 @@ matplotlib
 
 yfinance
 
-# Specifications
+## Usage
 
-# Unit Test 
+## Contributions
+
+## License 
+
+
+## Unit Test 
 This unit test can test a month's total data to match the GUI visulization
 simply copying these lines to a new python file under same directory
 
