@@ -1,4 +1,4 @@
-# Standard Readme
+# Self Budget GUI APP 
 
 [![standard-readme compliant](https://img.shields.io/badge/readme%20style-standard-brightgreen.svg?style=flat-square)](https://github.com/RichardLitt/standard-readme)
 
@@ -8,8 +8,20 @@ By using this standard, users can spend less time searhcing for the information 
 
 # Final Project
 Software Carpentry Final Project Fall 2020
+Team member: Cameron Czerpek & Tianxin Zhang
 
-# Installation
+## Table of Coontents
+
+-[Background](#background)
+-[Specification](#specification)
+-[Installation](#installation)
+-[Usage](#usage)
+-[Contributing](#contributing)
+-[License](#license)
+
+
+
+## Installation
 pip install yfinance
 
 pip install fpdf
