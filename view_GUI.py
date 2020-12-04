@@ -51,6 +51,8 @@ LCD Color - https://stackoverflow.com/questions/52312768/change-qlcdnumber-colou
 Get combo box text - https://www.geeksforgeeks.org/pyqt5-getting-the-text-of-selected-item-in-combobox/
 Update Dictionary - https://stackoverflow.com/questions/41063744/how-to-update-the-value-of-a-key-in-a-dictionary-in-python
 Check if path exists - https://www.guru99.com/python-check-if-file-exists.html
+Update Graph - https://stackoverflow.com/questions/59751779/update-chart-data-in-pyqt5
+Refresh Grid - https://www.qtcentre.org/threads/14701-Trying-to-refresh-a-QGridLayout
 '''
 
 '''
@@ -80,43 +82,230 @@ class Main_Budget(QWidget):
         self.spend_cb.addItems(["housing", "food", "transportation",
                                 "savings", "necessities", "fun_money"])
 
-        grid = QGridLayout()
-        grid.addWidget(self.add_text("Information"), 0, 0)
-        grid.addWidget(self.add_text("Input Expense"), 0, 1)
+        # Bar Chart
+        housing = QBarSet("Housing")
+        food = QBarSet("Food")
+        transportation = QBarSet("Transportation")
+        savings = QBarSet("Savings")
+        necessities = QBarSet("Necessities")
+        fun_money = QBarSet("Fun Money")
 
-        grid.addWidget(self.add_text("Date"), 1, 0)
-        # grid.addWidget(self.date_input(), 1, 1)
-        grid.addWidget(self.date_edit, 1, 1)
+        # Read monthly values for each category
+        month_name_today = self.date_edit.date().toString("MMMM")
+        if month_name_today == "December":
+            self.months_list = ["October", "November", "December"]
+        elif month_name_today == "November":
+            self.months_list = ["September", "October", "November"]
+        elif month_name_today == "October":
+            self.months_list = ["August", "September", "October"]
+        elif month_name_today == "September":
+            self.months_list = ["July", "August", "September"]
+        elif month_name_today == "August":
+            self.months_list = ["June", "July", "August"]
+        elif month_name_today == "July":
+            self.months_list = ["May", "June", "July"]
+        elif month_name_today == "June":
+            self.months_list = ["April", "May", "June"]
+        elif month_name_today == "May":
+            self.months_list = ["March", "April", "May"]
+        elif month_name_today == "April":
+            self.months_list = ["February", "March", "April"]
+        elif month_name_today == "March":
+            self.months_list = ["January", "February", "March"]
+        elif month_name_today == "February":
+            self.months_list = ["December", "January", "February"]
+        elif month_name_today == "January":
+            self.months_list = ["November", "December", "January"]
 
-        grid.addWidget(self.add_text("Price"), 2, 0)
-        grid.addWidget(self.lcdprice, 2, 1)
+        month3_dict = {'housing': 0,
+                        'food': 0,
+                        'transportation': 0,
+                        'savings': 0,
+                        'necessities': 0,
+                        'fun_money': 0}
 
-        grid.addWidget(self.price_input(), 3, 0, 1, 2)
+        month2_dict = {'housing': 0,
+                        'food': 0,
+                        'transportation': 0,
+                        'savings': 0,
+                        'necessities': 0,
+                        'fun_money': 0}
 
-        grid.addWidget(self.add_text("Category"), 4, 0)
-        # grid.addWidget(self.spend_category(), 4, 1)
-        grid.addWidget(self.spend_cb, 4, 1)
+        month1_dict = {'housing': 0,
+                        'food': 0,
+                        'transportation': 0,
+                        'savings': 0,
+                        'necessities': 0,
+                        'fun_money': 0}
 
-        grid.addWidget(self.add_text("Confirm"), 5, 0)
-        grid.addWidget(self.save_expense(), 5, 1)
+        if path.exists(self.months_list[2] + ".pickle"):
+                with open(self.months_list[2] + ".pickle", 'rb') as handle:
+                    month3_dict = pickle.load(handle)
+                    # month3_dict = December["housing"]
+                    # December[combo_box_text] += int(self.lcdprice.value())
+                # with open(self.months_list[2] + ".pickle", 'wb') as handle:
+                #     pickle.dump(December, handle,
+                #                 protocol=pickle.HIGHEST_PROTOCOL)
 
-        grid.addWidget(self.monthly_spend_chart(), 6, 0, 1, 2)
-        # grid.addWidget(self.monthly_spend_chart(), 7, 0, 1, 2)
+        if path.exists(self.months_list[1] + ".pickle"):
+                with open(self.months_list[1] + ".pickle", 'rb') as handle:
+                    month2_dict = pickle.load(handle)
+                    # month2_dict = December["housing"]
+                    # December[combo_box_text] += int(self.lcdprice.value())
+                # with open(self.months_list[1] + ".pickle", 'wb') as handle:
+                #     pickle.dump(December, handle,
+                #                 protocol=pickle.HIGHEST_PROTOCOL)
 
-        self.setLayout(grid)
+        if path.exists(self.months_list[0] + ".pickle"):
+                with open(self.months_list[0] + ".pickle", 'rb') as handle:
+                    month1_dict = pickle.load(handle)
+                    # month1_dict = December["housing"]
+                    # December[combo_box_text] += int(self.lcdprice.value())
+                # with open(self.months_list[0] + ".pickle", 'wb') as handle:
+                #     pickle.dump(December, handle,
+                #                 protocol=pickle.HIGHEST_PROTOCOL)
+
+        housing << month1_dict["housing"] << month2_dict["housing"] << month3_dict["housing"]
+        food << month1_dict["food"] << month2_dict["food"] << month3_dict["food"]
+        transportation << month1_dict["transportation"] << month2_dict["transportation"] << month3_dict["transportation"]
+        savings << month1_dict["savings"] << month2_dict["savings"] << month3_dict["savings"]
+        necessities << month1_dict["necessities"] << month2_dict["necessities"] << month3_dict["necessities"]
+        fun_money << month1_dict["fun_money"] << month2_dict["fun_money"] << month3_dict["fun_money"]
+
+        self.spend_data = QPercentBarSeries()
+        # self.spend_data = QBarSeries()
+        # self.spend_data = QStackedBarSeries()
+        self.spend_data.append(housing)
+        self.spend_data.append(food)
+        self.spend_data.append(transportation)
+        self.spend_data.append(savings)
+        self.spend_data.append(necessities)
+        self.spend_data.append(fun_money)
+
+        self.monthly_spend_c = QChart()
+        self.monthly_spend_c.createDefaultAxes()
+        self.monthly_spend_c.addSeries(self.spend_data)
+        self.monthly_spend_c.setTitle("Monthly Spending Percentages")
+        self.monthly_spend_c.setAnimationOptions(QChart.SeriesAnimations)
+
+        self.axis = QBarCategoryAxis()
+        self.axis.append(self.months_list)
+        self.monthly_spend_c.setAxisX(self.axis, self.spend_data)
+        # self.monthly_spend_c_View = QChartView(self.monthly_spend_c)
+        # self.monthly_spend_c_View.setRenderHint(QPainter.Antialiasing)
+        self.monthly_spend_c = QChartView(self.monthly_spend_c)
+        self.monthly_spend_c.setRenderHint(QPainter.Antialiasing)
+
+        # LCDs for main page lcdm
+        if path.exists("budget.pickle"):
+                with open("budget.pickle", 'rb') as handle:
+                    month_budget = pickle.load(handle)
+
+        # lcdm = lcd main
+        # lcdmt = lcd main total allowed spending for the month
+
+        self.lcdm_h = QLCDNumber()
+        self.lcdm_h.display(month3_dict["housing"])
+        self.lcdmt_h = QLCDNumber()
+        self.lcdmt_h.display(month_budget["housing"])
+
+        self.lcdm_f = QLCDNumber()
+        self.lcdm_f.display(month3_dict["food"])
+        self.lcdmt_f = QLCDNumber()
+        self.lcdmt_f.display(month_budget["food"])
+
+        self.lcdm_t = QLCDNumber()
+        self.lcdm_t.display(month3_dict["transportation"])
+        self.lcdmt_t = QLCDNumber()
+        self.lcdmt_t.display(month_budget["transportation"])
+
+        self.lcdm_s = QLCDNumber()
+        self.lcdm_s.display(month3_dict["savings"])
+        self.lcdmt_s = QLCDNumber()
+        self.lcdmt_s.display(month_budget["savings"])
+
+        self.lcdm_n = QLCDNumber()
+        self.lcdm_n.display(month3_dict["necessities"])
+        self.lcdmt_n = QLCDNumber()
+        self.lcdmt_n.display(month_budget["necessities"])
+
+        self.lcdm_fm = QLCDNumber()
+        self.lcdm_fm.display(month3_dict["fun_money"])
+        self.lcdmt_fm = QLCDNumber()
+        self.lcdmt_fm.display(month_budget["fun_money"])
+
+        self.lcdm_income = QLCDNumber()
+        self.lcdm_income.display(month_budget["income"])
+
+        self.lcdm_spent = QLCDNumber()
+        self.lcdm_spent.display(self.lcdm_h.value() + self.lcdm_f.value() +
+                                self.lcdm_t.value() + self.lcdm_s.value() +
+                                self.lcdm_n.value() + self.lcdm_fm.value())
+
+
+        # Set up Grid layout
+        self.grid = QGridLayout()
+        self.grid.addWidget(self.add_text("Information"), 0, 0)
+        self.grid.addWidget(self.add_text("Input Expense"), 0, 1)
+
+        self.grid.addWidget(self.add_text("Date"), 1, 0)
+        self.grid.addWidget(self.date_edit, 1, 1)
+
+        self.grid.addWidget(self.add_text("Price"), 2, 0)
+        self.grid.addWidget(self.lcdprice, 2, 1)
+
+        self.grid.addWidget(self.price_input(), 3, 0, 1, 2)
+
+        self.grid.addWidget(self.add_text("Category"), 4, 0)
+        self.grid.addWidget(self.spend_cb, 4, 1)
+
+        self.grid.addWidget(self.add_text("Confirm"), 5, 0)
+        self.grid.addWidget(self.save_expense(), 5, 1)
+
+        self.grid.addWidget(self.add_text("Category"), 0, 2)
+        self.grid.addWidget(self.add_text("Current Spending"), 0, 3)
+        self.grid.addWidget(self.add_text("Total Budget"), 0, 4)
+        self.grid.addWidget(self.add_text("Total Monthly Income"), 0, 5)
+        self.grid.addWidget(self.lcdm_income, 1, 5)
+        self.grid.addWidget(self.add_text("Total Spent this Month"), 2, 5)
+        self.grid.addWidget(self.lcdm_spent, 3, 5)
+
+        self.grid.addWidget(self.add_text("Housing"), 1, 2)
+        self.grid.addWidget(self.lcdm_h, 1, 3)
+        self.grid.addWidget(self.lcdmt_h, 1, 4)
+
+        self.grid.addWidget(self.add_text("Food"), 2, 2)
+        self.grid.addWidget(self.lcdm_f, 2, 3)
+        self.grid.addWidget(self.lcdmt_f, 2, 4)
+
+        self.grid.addWidget(self.add_text("Transportation"), 3, 2)
+        self.grid.addWidget(self.lcdm_t, 3, 3)
+        self.grid.addWidget(self.lcdmt_t, 3, 4)
+
+        self.grid.addWidget(self.add_text("Savings"), 4, 2)
+        self.grid.addWidget(self.lcdm_s, 4, 3)
+        self.grid.addWidget(self.lcdmt_s, 4, 4)
+
+        self.grid.addWidget(self.add_text("Necessities"), 5, 2)
+        self.grid.addWidget(self.lcdm_n, 5, 3)
+        self.grid.addWidget(self.lcdmt_n, 5, 4)
+
+        self.grid.addWidget(self.add_text("Fun Money"), 6, 2)
+        self.grid.addWidget(self.lcdm_fm, 6, 3)
+        self.grid.addWidget(self.lcdmt_fm, 6, 4)
+
+        # self.grid.addWidget(self.current_spend_c, 6, 0, 1, 2)
+        self.grid.addWidget(self.monthly_spend_c, 7, 0, 1, 6)
+
+        self.setLayout(self.grid)
+
 
     def add_text(self, line_text):
         text = QLabel()
         text.setText(line_text)
         return text
 
-    # def date_input(self):
-    #     date_edit = QDateEdit(calendarPopup=True)
-    #     date_edit.setDateTime(QDateTime.currentDateTime())
-    #     return date_edit
-
     def price_input(self):
-        # price = QLineEdit(f'Input Price in $')
         slider_price = QSlider(Qt.Horizontal)
         slider_price.setFocusPolicy(Qt.StrongFocus)
         slider_price.setTickPosition(QSlider.TicksBothSides)
@@ -126,7 +315,6 @@ class Main_Budget(QWidget):
         slider_price.setSingleStep(1)
         slider_price.setSliderPosition(0)
         slider_price.valueChanged.connect(self.updateLCDprice)
-        # slider_price.valueChanged.connect(self.updateLCDh_d)
         return slider_price
         # return price
 
@@ -137,34 +325,20 @@ class Main_Budget(QWidget):
                                                     color:  white; }""")
         self.lcdprice.display(event)
 
-    # def spend_category(self):
-    #     spend_cb = QComboBox()
-    #     # spend_cb.addItems(["Category", "Housing", "Food", "Transportation",
-    #     #                    "Savings", "Necessities", "Fun Money"])
-    #     spend_cb.addItems(["housing", "food", "transportation",
-    #                        "savings", "necessities", "fun_money"])
-    #     return spend_cb
+    # def updateLCDm_spent(self, event):
+    #     # print(event)
+    #     current_total = self.lcdm_spent.value()
+    #     event = int(self.lcdprice.value() + self.lcdm_spent.value())
+    #     self.lcdm_spent.display(event)
 
     def save_expense(self):
-        save_e_button = QPushButton(f'Save Expense')
-
-        # print(self.date_edit.date().toString("dd/MM/yyyy"))
-
-        # Write date, price, and category pickle file
-
-        # Update graph
+        save_e_button = QPushButton('Save Expense')
         save_e_button.clicked.connect(self.save_expense_click)
+        # month_name = self.date_edit.date().toString("MMMM")
+
         return save_e_button
 
-    def save_expense_click(self,filename):
-        self.filename = filename
-        # expense_save = {'income': 0,
-        #                 'housing': 0,
-        #                 'food': 0,
-        #                 'transportation': 0,
-        #                 'savings': 0,
-        #                 'necessities': 0,
-        #                 'fun_money': 0}
+    def save_expense_click(self):
         expense_save = {'housing': 0,
                         'food': 0,
                         'transportation': 0,
@@ -172,135 +346,200 @@ class Main_Budget(QWidget):
                         'necessities': 0,
                         'fun_money': 0}
 
-        monthyear = self.date_edit.date().toString("MMMMyy")
+        month_name = self.date_edit.date().toString("MMMM")
         combo_box_text = self.spend_cb.currentText()
-        filename = str(monthyear)+'.pickle'
-        # if monthyear == filename:
-        if ".pickle" in filename:
-            filename = filename.split('.pickle')[0]
-            if path.exists(filename + '.pickle'):
-                with open(filename + '.pickle', 'rb') as handle:
-                    December20 = pickle.load(handle)
-                    December20[combo_box_text] += int(self.lcdprice.value())
-                with open(filename + '.pickle', 'wb') as handle:
-                    pickle.dump(December20, handle,
+
+        # Connect save Expense to LCDs
+        # if month_name == self.date_edit.date().toString("MMMM"):
+        #     print("hi")
+        #     current_total = self.lcdm_spent.value()
+        #     event = int(self.lcdprice.value() + self.lcdm_spent.value())
+        #     self.lcdm_spent.display(event)
+
+            # print("hi")
+            # save_e_button.clicked.connect(self.updateLCDm_spent)
+
+        # Save the expense using pickle
+        if month_name == "December":
+            if path.exists("December.pickle"):
+                with open('December.pickle', 'rb') as handle:
+                    December = pickle.load(handle)
+                    December[combo_box_text] += int(self.lcdprice.value())
+                with open('December.pickle', 'wb') as handle:
+                    pickle.dump(December, handle,
                                 protocol=pickle.HIGHEST_PROTOCOL)
             else:
-                December20 = expense_save
-                December20[combo_box_text] += int(self.lcdprice.value())
-                with open(filename + '.pickle', 'wb') as handle:
-                    pickle.dump(December20, handle,
+                December = expense_save
+                December[combo_box_text] += int(self.lcdprice.value())
+                with open('December.pickle', 'wb') as handle:
+                    pickle.dump(December, handle,
+                                protocol=pickle.HIGHEST_PROTOCOL)
+        elif month_name == "November":
+            if path.exists("November.pickle"):
+                with open('November.pickle', 'rb') as handle:
+                    November = pickle.load(handle)
+                    November[combo_box_text] += int(self.lcdprice.value())
+                with open('November.pickle', 'wb') as handle:
+                    pickle.dump(November, handle,
+                                protocol=pickle.HIGHEST_PROTOCOL)
+            else:
+                November = expense_save
+                November[combo_box_text] += int(self.lcdprice.value())
+                with open('November.pickle', 'wb') as handle:
+                    pickle.dump(November, handle,
                                 protocol=pickle.HIGHEST_PROTOCOL)
 
-        # make sure not over your total budget 5000
-            with open(filename + '.pickle', 'rb') as handle:
-                b = pickle.load(handle)
-                # print(b.values())
-                if sum(b.values()) >= 5000:
-                    #it will still save the money
-                    error_gui("You spend more than your budget this month!")
-                # return
-            # button = QmessageBox.warning(self, 'Warning'.self.tr("Do you want to save the change?"),
-            #                              QmessageBox.Save | QmessageBox.Discard | QmessageBox.Cancel, QmessageBox.Save)
-            # if button == QmessageBox.Save:
-            #     self.label.setText("Warning Button/Save")
-            # elif button == QmessageBox.Discard:
-            #     self.label.setText('Warning Button/Discard')
-            # elif button == QmessageBox.Cancel:
-            #     self.label.setText("Warning button/Cancel")
-            # else:
-            #     return
+        elif month_name == "October":
+            if path.exists("October.pickle"):
+                with open('October.pickle', 'rb') as handle:
+                    October = pickle.load(handle)
+                    October[combo_box_text] += int(self.lcdprice.value())
+                with open('October.pickle', 'wb') as handle:
+                    pickle.dump(October, handle,
+                                protocol=pickle.HIGHEST_PROTOCOL)
+            else:
+                October = expense_save
+                October[combo_box_text] += int(self.lcdprice.value())
+                with open('October.pickle', 'wb') as handle:
+                    pickle.dump(October, handle,
+                                protocol=pickle.HIGHEST_PROTOCOL)
 
-        # print("You spend more than your budget this month!")
-    
+        elif month_name == "September":
+            if path.exists("September.pickle"):
+                with open('September.pickle', 'rb') as handle:
+                    September = pickle.load(handle)
+                    September[combo_box_text] += int(self.lcdprice.value())
+                with open('September.pickle', 'wb') as handle:
+                    pickle.dump(September, handle,
+                                protocol=pickle.HIGHEST_PROTOCOL)
+            else:
+                September = expense_save
+                September[combo_box_text] += int(self.lcdprice.value())
+                with open('September.pickle', 'wb') as handle:
+                    pickle.dump(September, handle,
+                                protocol=pickle.HIGHEST_PROTOCOL)
 
+        elif month_name == "August":
+            if path.exists("August.pickle"):
+                with open('August.pickle', 'rb') as handle:
+                    August = pickle.load(handle)
+                    August[combo_box_text] += int(self.lcdprice.value())
+                with open('August.pickle', 'wb') as handle:
+                    pickle.dump(August, handle,
+                                protocol=pickle.HIGHEST_PROTOCOL)
+            else:
+                August = expense_save
+                August[combo_box_text] += int(self.lcdprice.value())
+                with open('August.pickle', 'wb') as handle:
+                    pickle.dump(August, handle,
+                                protocol=pickle.HIGHEST_PROTOCOL)
 
-    # def save_expense_click(self):
-    #     budget = {'income': self.lcdi.value(),
-    #               'housing': self.lcdh_d.value(),
-    #               'food': self.lcdf_d.value(),
-    #               'transportation': self.lcdt_d.value(),
-    #               'savings': self.lcds_d.value(),
-    #               'necessities': self.lcdn.value(),
-    #               'fun_money': self.lcdfm.value()}
-    #     with open('budget.pickle', 'wb') as handle:
-    #         pickle.dump(budget, handle, protocol=pickle.HIGHEST_PROTOCOL)
-    #     return  # budget
+        elif month_name == "July":
+            if path.exists("July.pickle"):
+                with open('July.pickle', 'rb') as handle:
+                    July = pickle.load(handle)
+                    July[combo_box_text] += int(self.lcdprice.value())
+                with open('July.pickle', 'wb') as handle:
+                    pickle.dump(July, handle,
+                                protocol=pickle.HIGHEST_PROTOCOL)
+            else:
+                July = expense_save
+                July[combo_box_text] += int(self.lcdprice.value())
+                with open('July.pickle', 'wb') as handle:
+                    pickle.dump(July, handle,
+                                protocol=pickle.HIGHEST_PROTOCOL)
 
-    def monthly_spend_chart(self):
-        # The QBarSet class represents a set of bars in the bar chart.
-        # It groups several bars into a bar set
+        elif month_name == "June":
+            if path.exists("June.pickle"):
+                with open('June.pickle', 'rb') as handle:
+                    June = pickle.load(handle)
+                    June[combo_box_text] += int(self.lcdprice.value())
+                with open('June.pickle', 'wb') as handle:
+                    pickle.dump(June, handle,
+                                protocol=pickle.HIGHEST_PROTOCOL)
+            else:
+                June = expense_save
+                June[combo_box_text] += int(self.lcdprice.value())
+                with open('June.pickle', 'wb') as handle:
+                    pickle.dump(June, handle,
+                                protocol=pickle.HIGHEST_PROTOCOL)
 
-        housing = QBarSet("Housing")
-        food = QBarSet("Food")
-        transportation = QBarSet("Transportation")
-        savings = QBarSet("Savings")
-        necessities = QBarSet("Necessities")
-        fun_money = QBarSet("Fun Money")
+        elif month_name == "May":
+            if path.exists("May.pickle"):
+                with open('May.pickle', 'rb') as handle:
+                    May = pickle.load(handle)
+                    May[combo_box_text] += int(self.lcdprice.value())
+                with open('May.pickle', 'wb') as handle:
+                    pickle.dump(May, handle,
+                                protocol=pickle.HIGHEST_PROTOCOL)
+            else:
+                May = expense_save
+                May[combo_box_text] += int(self.lcdprice.value())
+                with open('May.pickle', 'wb') as handle:
+                    pickle.dump(May, handle,
+                                protocol=pickle.HIGHEST_PROTOCOL)
 
-        # Read monthly values for each category
-        housing << 1000 << 1000 << 1000
-        food << 300 << 250 << 350
-        transportation << 40 << 50 << 20
-        savings << 300 << 100 << 240
-        necessities << 100 << 90 << 120
-        fun_money << 100 << 250 << 50
+        elif month_name == "April":
+            if path.exists("April.pickle"):
+                with open('April.pickle', 'rb') as handle:
+                    April = pickle.load(handle)
+                    April[combo_box_text] += int(self.lcdprice.value())
+                with open('April.pickle', 'wb') as handle:
+                    pickle.dump(April, handle,
+                                protocol=pickle.HIGHEST_PROTOCOL)
+            else:
+                April = expense_save
+                April[combo_box_text] += int(self.lcdprice.value())
+                with open('April.pickle', 'wb') as handle:
+                    pickle.dump(April, handle,
+                                protocol=pickle.HIGHEST_PROTOCOL)
 
-        spend_data = QPercentBarSeries()
-        spend_data.append(housing)
-        spend_data.append(food)
-        spend_data.append(transportation)
-        spend_data.append(savings)
-        spend_data.append(necessities)
-        spend_data.append(fun_money)
+        elif month_name == "March":
+            if path.exists("March.pickle"):
+                with open('March.pickle', 'rb') as handle:
+                    March = pickle.load(handle)
+                    March[combo_box_text] += int(self.lcdprice.value())
+                with open('March.pickle', 'wb') as handle:
+                    pickle.dump(March, handle,
+                                protocol=pickle.HIGHEST_PROTOCOL)
+            else:
+                March = expense_save
+                March[combo_box_text] += int(self.lcdprice.value())
+                with open('March.pickle', 'wb') as handle:
+                    pickle.dump(March, handle,
+                                protocol=pickle.HIGHEST_PROTOCOL)
 
-        monthly_spend_c = QChart()
-        monthly_spend_c.addSeries(spend_data)
-        monthly_spend_c.setTitle("Monthly Spending")
-        monthly_spend_c.setAnimationOptions(QChart.SeriesAnimations)
+        elif month_name == "February":
+            if path.exists("February.pickle"):
+                with open('February.pickle', 'rb') as handle:
+                    February = pickle.load(handle)
+                    February[combo_box_text] += int(self.lcdprice.value())
+                with open('February.pickle', 'wb') as handle:
+                    pickle.dump(February, handle,
+                                protocol=pickle.HIGHEST_PROTOCOL)
+            else:
+                February = expense_save
+                February[combo_box_text] += int(self.lcdprice.value())
+                with open('February.pickle', 'wb') as handle:
+                    pickle.dump(February, handle,
+                                protocol=pickle.HIGHEST_PROTOCOL)
+        elif month_name == "January":
+            if path.exists("January.pickle"):
+                with open('January.pickle', 'rb') as handle:
+                    January = pickle.load(handle)
+                    January[combo_box_text] += int(self.lcdprice.value())
+                with open('January.pickle', 'wb') as handle:
+                    pickle.dump(January, handle,
+                                protocol=pickle.HIGHEST_PROTOCOL)
+            else:
+                January = expense_save
+                January[combo_box_text] += int(self.lcdprice.value())
+                with open('January.pickle', 'wb') as handle:
+                    pickle.dump(January, handle,
+                                protocol=pickle.HIGHEST_PROTOCOL)
 
-        months_list = ["Oct", "Nov", "Dec"]
-        axis = QBarCategoryAxis()
-        axis.append(months_list)
-        monthly_spend_c.setAxisX(axis, spend_data)
-        monthly_spend_c_View = QChartView(monthly_spend_c)
-        monthly_spend_c_View.setRenderHint(QPainter.Antialiasing)
+        return
 
-        return monthly_spend_c_View
-
-def error_gui(error_msg):
-    MessageScreen(QMessageBox.Critical,"An Error Occured!",error_msg)
-
-class MessageScreen(QWidget):
-
-    def __init__(self, message_type, title, message):
-        super().__init__()
-
-        self.move_to_centre()
-
-        error_box = QMessageBox(self)
-        error_box.setIcon(message_type)
-        error_box.setText(title)
-
-        error_box.setInformativeText(str(message))
-        error_box.addButton(QMessageBox.Ok)
-
-        error_box.setDefaultButton(QMessageBox.Ok)
-        ret = error_box.exec_()
-
-        if ret == QMessageBox.Ok:
-            return
- 
-    def move_to_centre(self):
-        resolution = QDesktopWidget().screenGeometry()
-
-        width = resolution.width() / 2
-        height = resolution.height() / 2
-
-        frame_width = self.frameSize().width() / 2
-        frame_height = self.frameSize().height() / 2
-
-        self.move(width - frame_width, height - frame_height)
 
 class Budget_Maker(QWidget):
     def __init__(self):
@@ -407,10 +646,6 @@ class Budget_Maker(QWidget):
         text.setText(line_text)
         return text
 
-    # def income_input(self):
-    #     income = QLineEdit(f'Input Price in $')
-    #     return income
-
     def slider_income(self, slider_value):
         slider_i = QSlider(Qt.Horizontal)
         slider_i.setFocusPolicy(Qt.StrongFocus)
@@ -433,28 +668,8 @@ class Budget_Maker(QWidget):
         # print(event)
         self.lcdi.display(event)
 
-    # def generate_budget(self):
-    #     generate_budget_button = QPushButton(f'Generate Budget from Income')
-    #     return generate_budget_button
-
     def save_budget(self):
         save_b_button = QPushButton(f'Save Budget')
-        # save_b_button.clicked.connect(save_budget_fun(self.lcdi.value(), self.lcdh_d.value(), self.lcdf_d.value(),
-        #                                               self.lcdt_d.value(), self.lcds_d.value(), self.lcdn.value(), self.lcdfm.value()))
-
-        # def save_budget_click(self):
-        # budget = {'income': self.lcdi.value(),
-        #           'housing': self.lcdh_d.value(),
-        #           'food': self.lcdf_d.value(),
-        #           'transportation': self.lcdt_d.value(),
-        #           'savings': self.lcds_d.value(),
-        #           'necessities': self.lcdn.value(),
-        #           'fun_money': self.lcdfm.value()}
-        # return budget
-        # save_b_button.clicked.connect(self.save_budget_click)
-
-        # with open('budget.pickle', 'wb') as handle:
-        #     pickle.dump(budget, handle, protocol=pickle.HIGHEST_PROTOCOL)
         save_b_button.clicked.connect(self.save_budget_click)
         return save_b_button
 
@@ -468,7 +683,7 @@ class Budget_Maker(QWidget):
                   'fun_money': self.lcdfm_d.value()}
         with open('budget.pickle', 'wb') as handle:
             pickle.dump(budget, handle, protocol=pickle.HIGHEST_PROTOCOL)
-        return  # budget
+        return
 
     def check_budget(self):
         check_b_button = QPushButton(f'Check Budget')
@@ -477,7 +692,8 @@ class Budget_Maker(QWidget):
 
     def updateLCDtotal(self):
         event = (self.lcdh.value() + self.lcdf.value() +
-                 self.lcdt.value() + self.lcds.value() + self.lcdn.value() + self.lcdfm.value())
+                 self.lcdt.value() + self.lcds.value() +
+                 self.lcdn.value() + self.lcdfm.value())
         # print(event)
         if event == 100:
             self.lcdtotal.setStyleSheet("""QLCDNumber { 
@@ -629,7 +845,8 @@ class PersonalFinance_GUI(QWidget):
 
         self.setWindowTitle("Budget App")
 
-        mainLayout = QVBoxLayout()
+        # mainLayout = QVBoxLayout()
+        self.mainLayout = QVBoxLayout()
 
         self.stackedWidget = QStackedWidget()
         self.stackedWidget.addWidget(Main_Budget())
@@ -646,24 +863,39 @@ class PersonalFinance_GUI(QWidget):
         buttonExit = QPushButton('Exit')
         buttonExit.clicked.connect(self.close)
 
+        buttonRefresh = QPushButton('Refresh')
+        buttonExit.clicked.connect(self.refreshWidget)
+
         # buttonExit
 
         buttonLayout = QHBoxLayout()
         buttonLayout.addWidget(buttonMain)
         buttonLayout.addWidget(buttonBudget)
         # buttonLayout.addStretch(1)
+
+        bl3 = QVBoxLayout()
+        # bl2.addStretch(2)
+        bl3.addWidget(buttonRefresh, alignment=QtCore.Qt.AlignRight)
+
         bl2 = QVBoxLayout()
         # bl2.addStretch(2)
         bl2.addWidget(buttonExit, alignment=QtCore.Qt.AlignRight)
 
-        mainLayout.addWidget(self.stackedWidget)
-        mainLayout.addLayout(buttonLayout)
-        mainLayout.addSpacing(10)
-        mainLayout.addLayout(bl2)
-        self.setLayout(mainLayout)
+        self.mainLayout.addWidget(self.stackedWidget)
+        self.mainLayout.addLayout(buttonLayout)
+        self.mainLayout.addSpacing(10)
+        self.mainLayout.addLayout(bl3)
+        self.mainLayout.addLayout(bl2)
+        self.setLayout(self.mainLayout)
 
-    def exitWidget(self):
-        self.stackedWidget.setCurrentIndex(2)
+    # def exitWidget(self):
+    #     self.stackedWidget.setCurrentIndex(2)
+
+    def refreshWidget(self):
+        self.stackedWidget.removeWidget(Main_Budget())
+        self.stackedWidget.addWidget(Main_Budget())
+        # self.mainLayout.hide()
+        # self.mainLayout.show()
 
     def budgetWidget(self):
         self.stackedWidget.setCurrentIndex(1)
