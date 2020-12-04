@@ -559,9 +559,7 @@ class Stock_Maker(QWidget):
 
     def init_page(self):
         #Start here putting 4 stocks live to the current GUI page
-        sc_im_map = QPixmap("sc.png")
-        self.sc_im_label.setPixmap(sc_im_map)
-        self.sc_im_label.show()
+        
 
         id_label = QLabel("Please select an option:")
 
@@ -576,6 +574,10 @@ class Stock_Maker(QWidget):
         
         msft_button = QPushButton('Microsoft Live Stock Info',self)
         msft_button.clicked.connect(self.msft_button_is_pressed)
+
+        sc_im_map = QPixmap("sc.png")
+        self.sc_im_label.setPixmap(sc_im_map)
+        self.sc_im_label.show()
 
         im_layout = QGridLayout()
         im_layout.addWidget(self.sc_im_label,0,0)
@@ -599,8 +601,11 @@ class Stock_Maker(QWidget):
         buttons_layout.addStretch(1)
         # buttons_layout.addWidget(exit_button)
 
+        
         self.main_layout.addSpacing(5)
         self.main_layout.addLayout(im_layout)
+        self.main_layout.addSpacing(5)
+        self.main_layout.addLayout(id_layout)
         self.main_layout.addSpacing(5)
         self.main_layout.addLayout(nasdaq_layout)
         self.main_layout.addSpacing(5)
