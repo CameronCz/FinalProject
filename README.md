@@ -1,10 +1,11 @@
-# Specification
+# Standard Readme
 
 [![standard-readme compliant](https://img.shields.io/badge/readme%20style-standard-brightgreen.svg?style=flat-square)](https://github.com/RichardLitt/standard-readme)
+[![license](https://img.shields.io/github/license/:user/:repo.svg)](LICENSE)
 
 By using this standard, users can spend less time searhcing for the information they want. 
 
-# FinalProject
+# Final Project
 Software Carpentry Final Project Fall 2020
 
 # Installation
