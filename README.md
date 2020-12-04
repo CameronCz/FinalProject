@@ -29,7 +29,8 @@ This project uses the following packages. Please check them if you don't have th
 One thing to mention is if you install PyQt5 newest version(5.15.2) in order to run using terminal or sublime text on macbook
 You may have a problem getting to run spyder.
 If you experience this situation, please downgrade the version to 5.10.1 after finish running GUI to use Anaconda.
-'''
+
+```sh
 pip install yfinance
 
 pip install fpdf
@@ -47,7 +48,8 @@ gui
 matplotlib
 
 yfinance
-'''
+```
+
 ## Usage
 
 ## Contributions
