@@ -60,7 +60,7 @@ Refresh Grid - https://www.qtcentre.org/threads/14701-Trying-to-refresh-a-QGridL
 
 '''
 General notes:
-GUI is broken into 2 layers
+GUI is broken into 3 layers
 Main layer - this is the layer of the GUI that the user
 primarily uses. They can add their most recent expenses
 on this layer, and their general spending is aggregated
@@ -68,6 +68,9 @@ here.
 Budget Layer - this layer is for the user to create or edit
 their budget. Here they input their income and adjust their
 categorical spending based on their own needs
+Checking Live Stock Layer - this layer helps you check the 
+related live stock information for the past 30 days to help
+manage your budget and investment
 '''
 
 
@@ -342,14 +345,6 @@ class Main_Budget(QWidget):
 
         return save_e_button
 
-    # def stock_live(self):
-    #     stock_button = QPushButton('Check Current Stock')
-    #     stock_button.clicked.connect(self.stock_click)
-    #     return stock_button
-
-    # def stock_click(self):
-    #     #Transferring from main.py we wrote previously
-
 
     def save_expense_click(self):
         expense_save = {'housing': 0,
@@ -554,6 +549,7 @@ class Main_Budget(QWidget):
         return
 
 class Stock_Maker(QWidget):
+    #Put everything we wrote in main.py about live stock info to here 
     def __init__(self):
         super().__init__()
         self.sc_im_label = QLabel()
@@ -617,42 +613,42 @@ class Stock_Maker(QWidget):
         self.main_layout.addLayout(buttons_layout)
         self.setLayout(self.main_layout)
     
-    def nasdaq_button_is_pressed():
+    def nasdaq_button_is_pressed(self):
         ndaq = yf.Ticker("NDAQ")
         hist = ndaq.history(period = '30d')
         hist['Close'].plot(figsize=(16,9))
-        plt.title("Nasdaq")
-        plt.ylabel("Dollar")
-        plt.xlabel('Days')
+        plt.title("Nasdaq Live Information")
+        plt.ylabel("Dollar($)")
+        plt.xlabel('Last 30 Days')
         plt.show()
 
-    def dji_button_is_pressed():
+    def dji_button_is_pressed(self):
         dji = yf.Ticker("DJI")
         hist = dji.history(period = '30d')
         hist['Close'].plot(figsize=(16,9))
-        plt.title("Dow Jones Industrial Average")
-        plt.ylabel("Dollar")
-        plt.xlabel('Days')
+        plt.title("Dow Jones Industrial Average Live Information")
+        plt.ylabel("Dollar($)")
+        plt.xlabel('Last 30 Days')
         plt.show()
 
-    def sp500_button_is_pressed():
+    def sp500_button_is_pressed(self):
         inx = yf.Ticker("^GSPC")
         hist = inx.history(period = '30d')
         hist['Close'].plot(figsize=(16,9))
-        plt.title("S&P 500 Index")
-        plt.ylabel("Dollar")
-        plt.xlabel('Days')
+        plt.title("S&P 500 Index Live Information")
+        plt.ylabel("Dollar($)")
+        plt.xlabel('Last 30 Days')
         plt.show()
 
-    def msft_button_is_pressed():
+    def msft_button_is_pressed(self):
         msft = yf.Ticker("MSFT")
         #Get your stock infomation
         # print(msft.info)
         hist = msft.history(period = '30d')
         hist['Close'].plot(figsize=(16,9))
-        plt.title("Microsoft")
-        plt.ylabel("Dollar")
-        plt.xlabel('Days')
+        plt.title("Microsoft Stock Live Information")
+        plt.ylabel("Dollar($)")
+        plt.xlabel('Last 30 Days')
         plt.show()
 
     def clear_layout(self, layout):
