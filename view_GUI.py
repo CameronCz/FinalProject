@@ -192,7 +192,7 @@ class Main_Budget(QWidget):
         self.monthly_spend_c = QChart()
         self.monthly_spend_c.createDefaultAxes()
         self.monthly_spend_c.addSeries(self.spend_data)
-        self.monthly_spend_c.setTitle("Monthly Spending Percentages")
+        self.monthly_spend_c.setTitle("Monthly Spending Percentages Over the Last 3 Months")
         self.monthly_spend_c.setAnimationOptions(QChart.SeriesAnimations)
 
         self.axis = QBarCategoryAxis()
