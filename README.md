@@ -19,6 +19,7 @@ Team member: Cameron Czerpek & Tianxin Zhang
 - [Contributing](#contributing)
 - [License](#license)
 - [Unit Test](#unittest)
+- [References](#references)
 
 ## Background
 
@@ -77,5 +78,29 @@ b = p.load(handle)print(b.values())
 
 --------------------------------------------------------------------
 
-Reference for this README file:
-We looked at some amazing README 
+## References:
+Window - https://www.learnpyqt.com/tutorials/creating-your-first-window/
+Sliders - https://pythonprogramminglanguage.com/pyqt5-sliders/
+Multiple Pages - https://stackoverflow.com/questions/56867107/how-to-make-a-multi-page-application-in-pyqt5
+QStackedWidget - https://learndataanalysis.org/rotate-widgets-with-qstackedwidget-class/
+BarGraph - https://codeloop.org/pyqtchart-how-to-create-barchart-in-pyqt5/
+StackedBarGraph - https://doc.qt.io/qt-5/qtcharts-stackedbarchart-example.html
+Layouts - https://www.learnpyqt.com/tutorials/layouts/
+Layouts - http://zetcode.com/gui/pyqt5/layout/
+Date - https://stackoverflow.com/questions/61449954/pyqt5-datepicker-popup
+Date to text - https://doc.qt.io/qt-5/qdate.html
+Drop Down Box - https://www.tutorialspoint.com/pyqt/pyqt_qcombobox_widget.htm
+Grid Width - https://doc.qt.io/qtforpython/PySide2/QtWidgets/QGridLayout.html
+Make LCD - https://learndataanalysis.org/control-lcd-number-widget-with-a-slider-pyqt5-tutorial/
+Refresh LCD - https://stackoverflow.com/questions/52015269/displaying-numbers-with-qlcdnumber-display-with-pyqt
+Saving - https://www.jessicayung.com/how-to-use-pickle-to-save-and-load-variables-in-python/
+Pickle dictionary - https://stackoverflow.com/questions/11218477/how-can-i-use-pickle-to-save-a-dict
+Popups - https://www.techwithtim.net/tutorials/pyqt5-tutorial/messageboxes/
+LCD Color - https://stackoverflow.com/questions/52312768/change-qlcdnumber-colour-when-a-specific-value-is-read-using-pyqt5
+Get combo box text - https://www.geeksforgeeks.org/pyqt5-getting-the-text-of-selected-item-in-combobox/
+Update Dictionary - https://stackoverflow.com/questions/41063744/how-to-update-the-value-of-a-key-in-a-dictionary-in-python
+Check if path exists - https://www.guru99.com/python-check-if-file-exists.html
+Update Graph - https://stackoverflow.com/questions/59751779/update-chart-data-in-pyqt5
+Refresh Grid - https://www.qtcentre.org/threads/14701-Trying-to-refresh-a-QGridLayout
+max in dictionary - https://stackoverflow.com/questions/42044090/return-the-maximum-value-from-a-dictionary/42044202
+
