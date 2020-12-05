@@ -76,8 +76,8 @@ Checking stocks like S&P 500 and Dow Jones can help us manage our investment for
 
 This project exists thanks to all the people who contribute, thanks for the instructor and grader at Software Carpentry class.  
 <a href="https://github.com/remarkablemark">
-  <img src="https://avatars0.githubusercontent.com/u/62724575?s=460&v=4.png?size=15">
-  <img src=https://avatars1.githubusercontent.com/u/61156750?s=460&v=4.png?size=15">
+  <img src="https://avatars0.githubusercontent.com/u/62724575?s=460&v=4.png?size=5">  
+  <img src=https://avatars1.githubusercontent.com/u/61156750?s=460&v=4.png?size=5">
 </a>
 
 
