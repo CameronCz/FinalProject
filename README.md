@@ -27,7 +27,7 @@ Having this budgeting app, we can enjoy our life worry free and let us take up t
 
 ## Specifications
 Please download sc.png and budget.pickle to your current directory to run python code.  
-The file directory you downloaded have to be the same directory as your python code.
+sc.png and budget.pickle and view_GUI.py must be in the same file directory to run view_GUI.py. We recommend running view_GUI.py with terminal. Sublime text is an okay second choice if all installations are setup correctly. We do not reccomend running view_GUI.py with spyder for reasons detailed below.
 
 Our GUI is broken into 3 layers:  
 - Main layer:  
@@ -46,12 +46,10 @@ If only the budget app is open, exit the GUI by clicking "Exit" at the bottom ri
 - This project uses the following packages. 
 - Please check them if you don't have them locally installed.
 ```diff
-- Please use PyQt5 verion 5.15.1 or newer to run the python code.
-- Attention: if you install PyQt5 newest version(5.15.2) in order to  
-- run using terminal or sublime text on macbook.
+- Attention: Please use PyQt5 verion 5.15.1 or newer to run the python code.
 ```
-- You may have a problem getting to run spyder.
-- If you experience this situation, please downgrade the version to 5.10.1 after finish running GUI to use Anaconda.
+- You may have a problem getting view_GUI.py to run spyder. Currently, one of our systems has a bug where installing PyQt5 5.15.1 or newer causes issues with spyder after you finish running the view_GUI.py.
+- If you experience this situation with spyder, the current fix is uninstalling PyQt5 5.15.1 and installing PyQt5 5.10.1 after finish running GUI to use Anaconda. PyQt5 5.10.1 does not support all GUI Widgets.
 
 Users may use pip install to install following packages.
 ```sh
