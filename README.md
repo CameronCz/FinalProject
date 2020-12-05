@@ -25,7 +25,7 @@ Team member: Cameron Czerpek & Tianxin Zhang
 
 
 ## Specifications
-Please download sc.png and budget.pickle to your current directory to run python code.
+Please download sc.png and budget.pickle to your current directory to run python code.  
 The file directory you downloaded have to be the same directory as your python code.
 
 - Our GUI is broken into 3 layers:
