@@ -26,27 +26,35 @@ Team member: Cameron Czerpek & Tianxin Zhang
 
 ## Installation
 This project uses the following packages. Please check them if you don't have them locally installed
-One thing to mention is if you install PyQt5 newest version(5.15.2) in order to run using terminal or sublime text on macbook
+Attention: if you install PyQt5 newest version(5.15.2) in order to run using terminal or sublime text on macbook
 You may have a problem getting to run spyder.
 If you experience this situation, please downgrade the version to 5.10.1 after finish running GUI to use Anaconda.
 
+Users may use pip install to install following packages.
 ```sh
 pip install yfinance
 
-pip install fpdf
+pip install PyQt5
 
-pip install PyQtChart
+pip install QtWidgets
+
+pip install QtChart
 
 pip install sys
 
 pip install widgets
 
-pip install core
+pip install QtCore
 
-pip install gui
+pip install QtGui
+
+pip install sys
 
 pip install matplotlib
 
+pip install pickle
+
+pip install os
 ```
 
 ## Usage
