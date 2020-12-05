@@ -22,7 +22,8 @@ Team member: Cameron Czerpek & Tianxin Zhang
 
 ## Background
 
-
+We build this GUI since we are interested in learning PyQt5 and we never did a project on visulization.  
+Having this budgeting app, we can enjoy our life worry free and let us take up the burden of organizing the finacial needs.
 
 ## Specifications
 Please download sc.png and budget.pickle to your current directory to run python code.  
@@ -30,13 +31,13 @@ The file directory you downloaded have to be the same directory as your python c
 
 Our GUI is broken into 3 layers:  
 - Main layer:  
-this is the layer of the GUI that the userprimarily uses. They can add their most recent expenses on this layer, and their general spending is aggregated here.
+This is the layer of the GUI that the userprimarily uses. They can add their most recent expenses on this layer, and their general spending is aggregated here.
 
 - Budget Layer:  
-this layer is for the user to create or edit their budget. Here they input their income and adjust their categorical spending based on their own needs.
+This layer is for the user to create or edit their budget. Here they input their income and adjust their categorical spending based on their own needs.
 
 - Checking Live Stock Layer:  
-this layer helps you check the related live stock information for the past 30 days to help manage your budget and investment.
+This layer helps you check the related live stock information for the past 30 days to help manage your budget and investment.
 
 ## Installation
 - This project uses the following packages. 
@@ -67,9 +68,13 @@ pip install os
 
 ## Usage
 
+For everyday consumer, planning for the future and working to an objective allows us to plan big purchases, like houses and cars, without worrying you will miss the mark. If we can all stick to our budgets, putting money aside or having more disposable income can become easier and take us a step closer to achieve the financial goals.  
+Checking stocks like S&P 500 and Dow Jones can help us manage our investment for future after looking at the economic indicator.
+
 ## Contributions
 
-This project exists thanks to all the people who contribute.
+This project exists thanks to all the people who contribute, thanks for the instructor and grader at Software Carpentry class.  
+
 
 ## License 
 [![license](https://img.shields.io/github/license/:user/:repo.svg)](LICENSE)
