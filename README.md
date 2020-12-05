@@ -73,8 +73,11 @@ For everyday consumer, planning for the future and working to an objective allow
 Checking stocks like S&P 500 and Dow Jones can help us manage our investment for future after looking at the economic indicator.
 
 ## Contributions
+This project exists thanks to all the people who contribute, thanks for the instructor and grader at Software Carpentry class.
+
 <a href="https://github.com/CameronCz/">
   <img src="https://github.com/CameronCz.png?size=50">
+  <img src = "https://avatars1.githubusercontent.com/u/61156750?s=460&v=4.png?size = 50>
 </a>
 
 
