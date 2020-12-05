@@ -31,13 +31,16 @@ The file directory you downloaded have to be the same directory as your python c
 
 Our GUI is broken into 3 layers:  
 - Main layer:  
-This is the layer of the GUI that the userprimarily uses. They can add their most recent expenses on this layer, and their general spending is aggregated here.
+This is the layer of the GUI that the userprimarily uses. They can add their most recent expenses on this layer, and their general spending is aggregated here. To add an expense, choose a date, price with the slider, and category. The save expense button will add the expense to the dictionary pickle file for that month. Click the "Last 3 Months Spending" button to view a breakdown of your spending by percentage for the last 3 months from the date of the last expense you submitted. Click "Current Month Spending" to compare to your budget. A budget of $2000 monthly income is the default. To get back to your current month, submit a $0 expense for the current month to get the graphs back to todays month.
 
 - Budget Layer:  
-This layer is for the user to create or edit their budget. Here they input their income and adjust their categorical spending based on their own needs.
+This layer is for the user to create or edit their budget. Here the user inputs their income and adjusts their categorical spending based on their own needs. Click check budget to make sure all sliders add up to 100%. Click save budget to save and update budget.pickle with your new budget.
 
 - Checking Live Stock Layer:  
-This layer helps you check the related live stock information for the past 30 days to help manage your budget and investment.
+This layer helps you check the related live stock information for the past 30 days to help manage your budget and investment. Click the button of the stock information you would like to view
+
+- Exit:  
+If only the budget app is open, exit the GUI by clicking "Exit" at the bottom right or the X out the window. If multiple graphs are open. X out of all graphs the exit the GUI.
 
 ## Installation
 - This project uses the following packages. 
@@ -67,6 +70,12 @@ pip install pickle
 pip install os
 ```
 
+Depending on how the user's pip install PyQt5 is done, they may need to install QtChart, QtGui, QtCore, and/or QtWidgets. For one of our systems, QtChart did not install with "pip install PyQt5", so that command is listed below. 
+
+```sh
+pip install PyQtChart
+```
+
 ## Usage
 
 For everyday consumer, planning for the future and working to an objective allows us to plan big purchases, like houses and cars, without worrying you will miss the mark. If we can all stick to our budgets, putting money aside or having more disposable income can become easier and take us a step closer to achieve the financial goals.  
@@ -86,8 +95,10 @@ This project exists thanks to all the people who contribute, thanks for the inst
 
 ## Unit Test 
 - This unit test can test a month's total data to match the GUI visulization.
-- Simply copying these lines to a new python file under same directory.
+- Add an expense to December by clicking save expense to create the December.pickle
+- Simply copy and run these lines to a new python file under same directory.
 - Testing for each month we have for the past year, not listed all of them in this chapter.
+- Swap out December.pickle for budget.pickle to test the standard budget or the budget you've created
 ```sh
 import pickle as p
 with open('December.pickle','rb') as handle:
