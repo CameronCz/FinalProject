@@ -77,7 +77,7 @@ This project exists thanks to all the people who contribute, thanks for the inst
 
 
 ## License 
-[![license](https://img.shields.io/github/license/:user/:repo.svg)](LICENSE)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 
 ## Unit Test 
