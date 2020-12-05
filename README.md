@@ -34,9 +34,8 @@ Our GUI is broken into 3 layers:
 ## Installation
 - This project uses the following packages. 
 - Please check them if you don't have them locally installed.
-- Please use PyQt5 verion 5.15.1 or newer to run the python code.
 ```diff
--red
+- Please use PyQt5 verion 5.15.1 or newer to run the python code.
 - Attention: if you install PyQt5 newest version(5.15.2) in order to run using terminal or sublime text on macbook.
 ```
 - You may have a problem getting to run spyder.
