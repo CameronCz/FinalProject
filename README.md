@@ -79,7 +79,7 @@ b = p.load(handle)print(b.values())
 --------------------------------------------------------------------
 
 ## References:
-Window - https://www.learnpyqt.com/tutorials/creating-your-first-window/
+* Window - https://www.learnpyqt.com/tutorials/creating-your-first-window/
 Sliders - https://pythonprogramminglanguage.com/pyqt5-sliders/
 Multiple Pages - https://stackoverflow.com/questions/56867107/how-to-make-a-multi-page-application-in-pyqt5
 QStackedWidget - https://learndataanalysis.org/rotate-widgets-with-qstackedwidget-class/
