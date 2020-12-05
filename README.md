@@ -24,7 +24,9 @@ Team member: Cameron Czerpek & Tianxin Zhang
 
 
 ## Specifications
-Our GUI is broken into 3 layers:
+Please download sc.png to your current directory to run python code.
+
+** Our GUI is broken into 3 layers:
 * Main layer - this is the layer of the GUI that the userprimarily uses. They can add their most recent expenses on this layer, and their general spending is aggregated here.
 
 * Budget Layer - this layer is for the user to create or edit their budget. Here they input their income and adjust their categorical spending based on their own needs.
@@ -69,9 +71,9 @@ This project exists thanks to all the people who contribute.
 
 
 ## Unit Test 
-This unit test can test a month's total data to match the GUI visulization.
-Simply copying these lines to a new python file under same directory.
-Testing for each month we have for the past year, not listed all of them in this chapter.
+- This unit test can test a month's total data to match the GUI visulization.
+- Simply copying these lines to a new python file under same directory.
+- Testing for each month we have for the past year, not listed all of them in this chapter.
 ```sh
 import pickle as p
 with open('December.pickle','rb') as handle:
@@ -102,5 +104,5 @@ with open('December.pickle','rb') as handle:
 * Check if path exists - https://www.guru99.com/python-check-if-file-exists.html
 * Update Graph - https://stackoverflow.com/questions/59751779/update-chart-data-in-pyqt5
 * Refresh Grid - https://www.qtcentre.org/threads/14701-Trying-to-refresh-a-QGridLayout
-* max in dictionary - https://stackoverflow.com/questions/42044090/return-the-maximum-value-from-a-dictionary/42044202
+* Max in dictionary - https://stackoverflow.com/questions/42044090/return-the-maximum-value-from-a-dictionary/42044202
 
