@@ -37,17 +37,16 @@ pip install fpdf
 
 pip install PyQtChart
 
-sys
+pip install sys
 
-widgets
+pip install widgets
 
-core
+pip install core
 
-gui
+pip install gui
 
-matplotlib
+pip install matplotlib
 
-yfinance
 ```
 
 ## Usage
