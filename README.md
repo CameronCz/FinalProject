@@ -21,7 +21,15 @@ Team member: Cameron Czerpek & Tianxin Zhang
 
 ## Background
 
+
+
 ## Specifications
+Our GUI is broken into 3 layers:
+* Main layer - this is the layer of the GUI that the userprimarily uses. They can add their most recent expenses on this layer, and their general spending is aggregated here.
+
+* Budget Layer - this layer is for the user to create or edit their budget. Here they input their income and adjust their categorical spending based on their own needs.
+
+* Checking Live Stock Layer - this layer helps you check the related live stock information for the past 30 days to help manage your budget and investment.
 
 ## Installation
 This project uses the following packages. Please check them if you don't have them locally installed
