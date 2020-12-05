@@ -1,4 +1,5 @@
-# Self Budget GUI APP 
+Self Budget GUI APP 
+===
 
 [![standard-readme compliant](https://img.shields.io/badge/readme%20style-standard-brightgreen.svg?style=flat-square)](https://github.com/RichardLitt/standard-readme)
 
@@ -24,15 +25,16 @@ Team member: Cameron Czerpek & Tianxin Zhang
 
 
 ## Specifications
-Please download sc.png to your current directory to run python code.
+Please download sc.png and budget.pickle to your current directory to run python code.
+The file directory you downloaded have to be the same directory as your python code.
 
 - Our GUI is broken into 3 layers:
 
--- Main layer - this is the layer of the GUI that the userprimarily uses. They can add their most recent expenses on this layer, and their general spending is aggregated here.
+    - Main layer - this is the layer of the GUI that the userprimarily uses. They can add their most recent expenses on this layer, and their general spending is aggregated here.
 
-* Budget Layer - this layer is for the user to create or edit their budget. Here they input their income and adjust their categorical spending based on their own needs.
+    - Budget Layer - this layer is for the user to create or edit their budget. Here they input their income and adjust their categorical spending based on their own needs.
 
-* Checking Live Stock Layer - this layer helps you check the related live stock information for the past 30 days to help manage your budget and investment.
+    - Checking Live Stock Layer - this layer helps you check the related live stock information for the past 30 days to help manage your budget and investment.
 
 ## Installation
 - This project uses the following packages. 
