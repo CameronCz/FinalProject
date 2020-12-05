@@ -26,7 +26,8 @@ Team member: Cameron Czerpek & Tianxin Zhang
 ## Specifications
 Please download sc.png to your current directory to run python code.
 
-** Our GUI is broken into 3 layers:
+**Our GUI is broken into 3 layers:
+
 * Main layer - this is the layer of the GUI that the userprimarily uses. They can add their most recent expenses on this layer, and their general spending is aggregated here.
 
 * Budget Layer - this layer is for the user to create or edit their budget. Here they input their income and adjust their categorical spending based on their own needs.
