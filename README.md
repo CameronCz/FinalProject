@@ -2,8 +2,6 @@
 
 [![standard-readme compliant](https://img.shields.io/badge/readme%20style-standard-brightgreen.svg?style=flat-square)](https://github.com/RichardLitt/standard-readme)
 
-[![license](https://img.shields.io/github/license/:user/:repo.svg)](LICENSE)
-
 By using this standard, users can spend less time searhcing for the information they want. 
 
 # Final Project
@@ -55,16 +53,17 @@ pip install os
 This project exists thanks to all the people who contribute.
 
 ## License 
+[![license](https://img.shields.io/github/license/:user/:repo.svg)](LICENSE)
 
 
 ## Unit Test 
-This unit test can test a month's total data to match the GUI visulization
-simply copying these lines to a new python file under same directory
-
+This unit test can test a month's total data to match the GUI visulization.
+Simply copying these lines to a new python file under same directory.
+Testing for each month we have for the past year, not listed all of them in this chapter.
 ```sh
 import pickle as p
 with open('December.pickle','rb') as handle:
-  b = p.load(handle)print(b.values())
+    b = p.load(handle)print(b.values())
 ```
 
 ## References:
