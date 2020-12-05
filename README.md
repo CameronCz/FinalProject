@@ -37,17 +37,7 @@ pip install yfinance
 
 pip install PyQt5
 
-pip install QtWidgets
-
-pip install QtChart
-
 pip install sys
-
-pip install widgets
-
-pip install QtCore
-
-pip install QtGui
 
 pip install sys
 
@@ -71,12 +61,11 @@ This project exists thanks to all the people who contribute.
 This unit test can test a month's total data to match the GUI visulization
 simply copying these lines to a new python file under same directory
 
-------------------------------------------------------------------------------
+```sh
 import pickle as p
 with open('December.pickle','rb') as handle:
-b = p.load(handle)print(b.values())
-
---------------------------------------------------------------------
+  b = p.load(handle)print(b.values())
+```
 
 ## References:
 * Window - https://www.learnpyqt.com/tutorials/creating-your-first-window/
