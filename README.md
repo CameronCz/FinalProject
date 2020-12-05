@@ -74,8 +74,9 @@ Checking stocks like S&P 500 and Dow Jones can help us manage our investment for
 
 ## Contributions
 This project exists thanks to all the people who contribute, thanks for the instructor and grader at Software Carpentry class.
-[![](https://github.com/Christine-1122.png?size=10)](https://github.com/Christine-1122)
-[![](https://github.com/CameronCz.png?size=10)](https://github.com/CameronCz)
+<a href="https://github.com/CameronCz/FinalProject/graphs/contributors">
+  <img src="https://contributors-img.web.app/image?repo=CameronCz/FinalProject" />
+</a>
 
 
 
