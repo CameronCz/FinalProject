@@ -44,7 +44,8 @@ This layer helps you check the related live stock information for the past 30 da
 - Please check them if you don't have them locally installed.
 ```diff
 - Please use PyQt5 verion 5.15.1 or newer to run the python code.
-- Attention: if you install PyQt5 newest version(5.15.2) in order to run using terminal or sublime text on macbook.
+- Attention: if you install PyQt5 newest version(5.15.2) in order to  
+  run using terminal or sublime text on macbook.
 ```
 - You may have a problem getting to run spyder.
 - If you experience this situation, please downgrade the version to 5.10.1 after finish running GUI to use Anaconda.
@@ -76,6 +77,7 @@ Checking stocks like S&P 500 and Dow Jones can help us manage our investment for
 This project exists thanks to all the people who contribute, thanks for the instructor and grader at Software Carpentry class.  
 <a href="https://github.com/remarkablemark">
   <img src="https://avatars0.githubusercontent.com/u/62724575?s=460&v=4.png?size=15">
+  <img src=https://avatars1.githubusercontent.com/u/61156750?s=460&v=4.png?size=15">
 </a>
 
 
